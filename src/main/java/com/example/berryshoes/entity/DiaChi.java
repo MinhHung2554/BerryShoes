@@ -22,8 +22,9 @@ public class DiaChi {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "IdKhachHang", nullable = false)
-    private Integer idKhachHang;
+    @ManyToOne
+    @JoinColumn(name = "IdKhachHang", nullable = false)
+    private KhachHang khachHang;
 
     @Column(name = "TenDuong", nullable = false)
     private String tenDuong;
