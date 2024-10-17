@@ -10,34 +10,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-
+@RequestMapping("NhanVien")
 public class NhanVienController {
     @Autowired
-    NhanVienRepository nvRe;
+    NhanVienRepository nhanVienRepository;
 
-    @GetMapping("nhanVien/index")
+    @GetMapping("index")
     public List<NhanVien> index(Model model) {
-        return nvRe.findAll();
+        return nhanVienRepository.findAll();
     }
 
-    @PostMapping("nhanVien/add")
+    @PostMapping("add")
     public NhanVien add(@RequestBody NhanVien nv) {
-        return nvRe.save(nv);
+        return nhanVienRepository.save(nv);
     }
 
-    @PutMapping("/nhanVien/update/{id}")
+    @PutMapping("update/{id}")
     public NhanVien put(@PathVariable("id") String id, @RequestBody NhanVien nv) {
-        nvRe.save(nv);
+        nhanVienRepository.save(nv);
         return nv;
     }
 
-    @DeleteMapping("/nhanVien/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void delete(@PathVariable Integer id) {
-        nvRe.deleteById(id);
+        nhanVienRepository.deleteById(id);
 
     }
 //    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
 //        nvRe.deleteById(id);
 //        return ResponseEntity.ok("ok");
 //    }
+
 }
