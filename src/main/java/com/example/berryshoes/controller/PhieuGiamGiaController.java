@@ -2,7 +2,7 @@ package com.example.berryshoes.controller;
 
 import com.example.berryshoes.dto.request.PhieuGiamGiaRequest;
 import com.example.berryshoes.entity.PhieuGiamGia;
-import com.example.berryshoes.Service.PhieuGiamGiaService;
+import com.example.berryshoes.service.PhieuGiamGiaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

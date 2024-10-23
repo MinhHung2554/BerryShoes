@@ -1,7 +1,6 @@
-package com.example.berryshoes.Service;
+package com.example.berryshoes.service;
 
 import com.example.berryshoes.dto.request.KhachHangRequest;
-import com.example.berryshoes.dto.response.KhachHangResponse;
 import com.example.berryshoes.entity.KhachHang;
 import com.example.berryshoes.repository.KhachHangRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class KhachHangService {

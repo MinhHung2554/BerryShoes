@@ -1,7 +1,6 @@
-package com.example.berryshoes.Service;
+package com.example.berryshoes.service;
 
 import com.example.berryshoes.dto.request.NhanVienRequest;
-import com.example.berryshoes.dto.response.NhanVienResponse;
 import com.example.berryshoes.entity.NhanVien;
 import com.example.berryshoes.repository.NhanVienRepository;
 import org.springframework.beans.factory.annotation.Autowired;

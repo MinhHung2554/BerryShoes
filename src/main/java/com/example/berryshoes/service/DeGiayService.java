@@ -1,4 +1,4 @@
-package com.example.berryshoes.Service;
+package com.example.berryshoes.service;
 
 import com.example.berryshoes.dto.request.DeGiayRequest;
 import com.example.berryshoes.entity.DeGiay;

@@ -1,11 +1,10 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.Service.ChatLieuService;
+import com.example.berryshoes.service.ChatLieuService;
 import com.example.berryshoes.dto.request.ChatLieuRequest;
 import com.example.berryshoes.dto.response.ChatLieuResponse;
 import com.example.berryshoes.entity.ChatLieu;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

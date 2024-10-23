@@ -1,6 +1,6 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.Service.KichCoService;
+import com.example.berryshoes.service.KichCoService;
 import com.example.berryshoes.dto.request.KichCoRequest;
 import com.example.berryshoes.dto.response.KichCoResponse;
 import com.example.berryshoes.entity.KichCo;
