@@ -1,10 +1,5 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.dto.request.LoginRequest;
-import com.example.berryshoes.dto.response.LoginResponse;
-import com.example.berryshoes.security.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
