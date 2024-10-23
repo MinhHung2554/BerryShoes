@@ -13,11 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/khachhang")
+    @RequestMapping("/api/khachhang")
 @RequiredArgsConstructor
 public class KhachHangController {
-    @Autowired
-    private KhachHangService khachHangService;
+    private final KhachHangService khachHangService;
 
     // Lấy tất cả khách hàng
     @GetMapping
