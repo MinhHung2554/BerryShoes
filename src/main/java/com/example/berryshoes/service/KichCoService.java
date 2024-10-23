@@ -1,4 +1,4 @@
-package com.example.berryshoes.Service;
+package com.example.berryshoes.service;
 
 import com.example.berryshoes.dto.request.KichCoRequest;
 import com.example.berryshoes.entity.KichCo;

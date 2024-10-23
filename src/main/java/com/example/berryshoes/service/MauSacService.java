@@ -1,4 +1,4 @@
-package com.example.berryshoes.Service;
+package com.example.berryshoes.service;
 
 import com.example.berryshoes.dto.request.MauSacRequest;
 import com.example.berryshoes.entity.MauSac;

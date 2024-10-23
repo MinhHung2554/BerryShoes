@@ -1,10 +1,9 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.Service.NhanVienService;
+import com.example.berryshoes.service.NhanVienService;
 import com.example.berryshoes.dto.request.NhanVienRequest;
 import com.example.berryshoes.entity.NhanVien;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,32 +1,31 @@
 package com.example.berryshoes.dto.response;
 
+import com.example.berryshoes.entity.KhachHang; // import KhachHang
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
-@Builder
-public class DotGiamGiaResponse {
+public class DiaChiResponse {
     private Integer id;
-    private Integer giaTriGiam;
+    private KhachHang khachHang; // Để lấy thông tin khách hàng
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private Timestamp ngayBatDau;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private Timestamp ngayKetThuc;
-
-    private String nguoiTao;
+    private String tenDuong;
+    private String xaPhuong;
+    private String quanHuyen;
+    private String tinhThanhPho;
+    private String tenNguoiNhan;
+    private String sdtNguoiNhan;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp ngayTao;
+
+    private String nguoiTao;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp lanCapNhatCuoi;
 
     private String nguoiCapNhat;
-
     private Integer trangThai;
 }

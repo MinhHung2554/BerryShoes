@@ -1,6 +1,6 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.Service.MauSacService;
+import com.example.berryshoes.service.MauSacService;
 import com.example.berryshoes.dto.request.MauSacRequest;
 import com.example.berryshoes.dto.response.MauSacResponse;
 import com.example.berryshoes.entity.MauSac;
