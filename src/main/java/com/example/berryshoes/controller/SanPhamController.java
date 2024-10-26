@@ -1,6 +1,6 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.Service.SanPhamService;
+import com.example.berryshoes.service.SanPhamService;
 import com.example.berryshoes.dto.request.SanPhamRequest;
 import com.example.berryshoes.entity.SanPham;
 import lombok.RequiredArgsConstructor;

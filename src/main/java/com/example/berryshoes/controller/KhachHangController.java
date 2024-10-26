@@ -1,8 +1,7 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.Service.KhachHangService;
+import com.example.berryshoes.service.KhachHangService;
 import com.example.berryshoes.dto.request.KhachHangRequest;
-import com.example.berryshoes.dto.response.KhachHangResponse;
 import com.example.berryshoes.entity.KhachHang;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
