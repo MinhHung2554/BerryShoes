@@ -31,21 +31,21 @@ public class PhieuGiamGiaController {
     // Tạo mới phiếu giảm giá
     @PostMapping
     public ResponseEntity<PhieuGiamGia> createPhieuGiamGia(@RequestBody PhieuGiamGiaRequest requestDTO) {
-        PhieuGiamGia createdPhieuGiamGia = phieuGiamGiaService.createPhieuGiamGia(requestDTO);
+        PhieuGiamGia createdPhieuGiamGia = phieuGiamGiaService.create(requestDTO);
         return ResponseEntity.ok(createdPhieuGiamGia);
     }
 
     // Cập nhật phiếu giảm giá
     @PutMapping("/{id}")
     public ResponseEntity<PhieuGiamGia> updatePhieuGiamGia(@PathVariable Integer id, @RequestBody PhieuGiamGiaRequest requestDTO) {
-        PhieuGiamGia updatedPhieuGiamGia = phieuGiamGiaService.updatePhieuGiamGia(id, requestDTO);
+        PhieuGiamGia updatedPhieuGiamGia = phieuGiamGiaService.update(id, requestDTO);
         return updatedPhieuGiamGia != null ? ResponseEntity.ok(updatedPhieuGiamGia) : ResponseEntity.notFound().build();
     }
 
     // Xóa phiếu giảm giá
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePhieuGiamGia(@PathVariable Integer id) {
-        phieuGiamGiaService.deletePhieuGiamGia(id);
+        phieuGiamGiaService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

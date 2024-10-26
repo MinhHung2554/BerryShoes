@@ -8,12 +8,8 @@ import java.util.Optional;
 
 public interface PhieuGiamGiaService {
     List<PhieuGiamGia> getAllPhieuGiamGia();
-
     Optional<PhieuGiamGia> getPhieuGiamGiaById(Integer id);
-
-    PhieuGiamGia createPhieuGiamGia(PhieuGiamGiaRequest requestDTO);
-
-    PhieuGiamGia updatePhieuGiamGia(Integer id, PhieuGiamGiaRequest requestDTO);
-
-    void deletePhieuGiamGia(Integer id);
+    PhieuGiamGia create(PhieuGiamGiaRequest requestDTO);
+    PhieuGiamGia update(Integer id, PhieuGiamGiaRequest requestDTO);
+    void delete(Integer id);
 }

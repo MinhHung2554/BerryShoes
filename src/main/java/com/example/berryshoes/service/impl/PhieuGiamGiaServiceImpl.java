@@ -27,7 +27,7 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
     }
 
     @Override
-    public PhieuGiamGia createPhieuGiamGia(PhieuGiamGiaRequest requestDTO) {
+    public PhieuGiamGia create(PhieuGiamGiaRequest requestDTO) {
         PhieuGiamGia phieuGiamGia = new PhieuGiamGia();
         phieuGiamGia.setMaCode(requestDTO.getMaCode());
         phieuGiamGia.setTenPhieu(requestDTO.getTenPhieu());
@@ -46,7 +46,7 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
     }
 
     @Override
-    public PhieuGiamGia updatePhieuGiamGia(Integer id, PhieuGiamGiaRequest requestDTO) {
+    public PhieuGiamGia update(Integer id, PhieuGiamGiaRequest requestDTO) {
         Optional<PhieuGiamGia> optionalPhieuGiamGia = phieuGiamGiaRepository.findById(id);
         if (optionalPhieuGiamGia.isPresent()) {
             PhieuGiamGia phieuGiamGia = optionalPhieuGiamGia.get();
@@ -69,7 +69,7 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
     }
 
     @Override
-    public void deletePhieuGiamGia(Integer id) {
+    public void delete(Integer id) {
         if (phieuGiamGiaRepository.existsById(id)) {
             phieuGiamGiaRepository.deleteById(id);
         } else {
