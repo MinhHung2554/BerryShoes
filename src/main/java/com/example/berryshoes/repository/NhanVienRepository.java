@@ -8,7 +8,8 @@ import java.util.List;
 
 @Repository
 public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
-    NhanVien findByTaiKhoan(String taiKhoan);
-    List<NhanVien> findByNameContainingIgnoreCase(String ten);
-    List<NhanVien> findByTrangThai(String trangThai);
+    //    NhanVien findByTaiKhoan(String taiKhoan);
+    List<NhanVien> findAllByHoVaTenContaining(String hoVaTen);
+
+//    List<NhanVien> findByTrangThai(String trangThai);
 }

@@ -5,6 +5,7 @@ import com.example.berryshoes.security.service.NhanVienService;
 import com.example.berryshoes.dto.request.NhanVienRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,15 +53,20 @@ public class NhanVienController {
         nhanVienService.deleteNhanVien(id);
         return ResponseEntity.noContent().build();
     }
+
     // Tìm kiếm nhân viên theo tên
     @GetMapping("/search")
-    public ResponseEntity<List<NhanVien>> searchNhanVienByName(@RequestParam String hovaTen) {
+    public ResponseEntity<?> searchNhanVienByName(@RequestBody String hovaTen) {
         List<NhanVien> nhanVienList = nhanVienService.searchNhanVienByName(hovaTen);
+        if (nhanVienList == null || nhanVienList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy nhân viên");
+        }
         return ResponseEntity.ok(nhanVienList);
     }
-    @GetMapping("/loc")
-    public ResponseEntity<List<NhanVien>> filterNhanVienByStatus(@RequestParam String trangThai) {
-        List<NhanVien> nhanVienList = nhanVienService.filterNhanVienByStatus(trangThai);
-        return ResponseEntity.ok(nhanVienList);
-    }
+
+//    @GetMapping("/loc")
+//    public ResponseEntity<List<NhanVien>> filterNhanVienByStatus(@RequestParam Integer trangThai) {
+//        List<NhanVien> nhanVienList = nhanVienService.filterNhanVienByStatus(trangThai);
+//        return ResponseEntity.ok(nhanVienList);
+//    }
 }

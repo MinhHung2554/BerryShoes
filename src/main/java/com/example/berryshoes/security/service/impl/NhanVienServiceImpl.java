@@ -82,13 +82,13 @@ public class NhanVienServiceImpl implements NhanVienService {
 
     // Tìm kiếm nhân viên theo tên
     @Override
-    public List<NhanVien> searchNhanVienByName(String name) {
-        return nhanVienRepository.findByNameContainingIgnoreCase(name);
+    public List<NhanVien> searchNhanVienByName(String hoVaTen) {
+        return nhanVienRepository.findAllByHoVaTenContaining(hoVaTen);
     }
 
     //Lọc nhân viên theo trạng thái
-    @Override
-    public List<NhanVien> filterNhanVienByStatus(String trangThai) {
-        return nhanVienRepository.findByTrangThai(trangThai);
-    }
+//    @Override
+//    public List<NhanVien> filterNhanVienByStatus(String trangThai) {
+//        return nhanVienRepository.findByTrangThai(trangThai);
+//    }
 }
