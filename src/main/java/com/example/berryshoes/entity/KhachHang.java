@@ -50,6 +50,12 @@ public class KhachHang {
     @Column(name = "MatKhau", length = 300)
     private String matKhau;
 
+//    @Enumerated(EnumType.STRING)
+//    private Role vaiTro = Role.KHACHHANG; //Hưng thêm
+//    @Column(name = "VaiTro", length = 50)
+//    private String vaiTro;
+
+
     @CreationTimestamp
     @Column(name = "NgayTao", updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

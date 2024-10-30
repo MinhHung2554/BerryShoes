@@ -26,6 +26,11 @@ public class MauSacServiceImpl implements MauSacService {
     }
 
     @Override
+    public Optional<MauSac> getById(Integer id) {
+        return mauSacRepository.findById(id);
+    }
+
+    @Override
     public MauSac createMauSac(MauSacRequest requestDTO) {
         MauSac mauSac = MauSac.builder()
                 .maMauSac(requestDTO.getMaMauSac())
@@ -57,5 +62,13 @@ public class MauSacServiceImpl implements MauSacService {
         } else {
             throw new RuntimeException("Màu sắc không tồn tại");
         }
+    }
+    @Override
+    public void deleteByTrangThai(Integer id) {
+        mauSacRepository.updateTrangThaiToFalseById(id); // Giả sử không xóa vĩnh viễn mà chỉ cập nhật trạng thái
+    }
+    @Override
+    public List<MauSac> findByTenAndTrangThai(String ten, Integer trangThai) {
+        return mauSacRepository.findByTenAndTrangThai(ten, trangThai);
     }
 }

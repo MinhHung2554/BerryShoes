@@ -9,6 +9,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthResponse {
     private String token;
-    private String refreshToken;
-    private String hoVaTen; // Hoặc các thông tin cần thiết khác
 }

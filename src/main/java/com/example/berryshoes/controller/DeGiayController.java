@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/degay")
+@RequestMapping("/api/de-giay")
 @RequiredArgsConstructor
 public class DeGiayController {
     @Autowired
@@ -94,5 +94,17 @@ public class DeGiayController {
         response.setNguoiCapNhat(deGiay.getNguoiCapNhat());
         response.setTrangThai(deGiay.getTrangThai());
         return response;
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<DeGiay>> searchDeGiay(@RequestParam String ten, @RequestParam(required = false) Integer trangThai) {
+        List<DeGiay> deGiays = deGiayService.findByTenAndTrangThai(ten, trangThai);
+        return ResponseEntity.ok(deGiays);
+    }
+
+    @PutMapping("/{id}/changeTrangThai")
+    public ResponseEntity<Void> deactivateDeGiay(@PathVariable Integer id) {
+        deGiayService.updateTrangThaiToFalseById(id);
+        return ResponseEntity.noContent().build();
     }
 }

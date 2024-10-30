@@ -57,4 +57,13 @@ public class ChatLieuServiceImpl implements ChatLieuService {
             throw new RuntimeException("Chất liệu không tồn tại");
         }
     }
+    @Override
+    public List<ChatLieu> findByTenAndTrangThai(String ten, Integer trangThai) {
+        return chatLieuRepository.findByTenAndTrangThai(ten, trangThai);
+    }
+
+    @Override
+    public boolean existsByTenChatLieu(String tenChatLieu) {
+        return chatLieuRepository.existsByTenChatLieu(tenChatLieu);
+    }
 }

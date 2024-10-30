@@ -16,4 +16,7 @@ public interface ChatLieuService {
     ChatLieu updateChatLieu(Integer id, ChatLieuRequest requestDTO);
 
     void deleteChatLieu(Integer id);
+
+    List<ChatLieu> findByTenAndTrangThai(String ten, Integer trangThai);
+    boolean existsByTenChatLieu(String tenChatLieu);
 }

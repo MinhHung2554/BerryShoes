@@ -57,4 +57,35 @@ public class DeGiayServiceImpl implements DeGiayService {
             throw new RuntimeException("Đế giày không tồn tại");
         }
     }
+
+    @Override
+    public List<DeGiay> findByTenAndTrangThai(String ten, Integer trangThai) {
+        return deGiayRepository.findByTenAndTrangThai(ten, trangThai);
+    }
+
+    @Override
+    public List<DeGiay> findAllByOrderByNgayTaoDesc() {
+        return deGiayRepository.findAllByOrderByNgayTaoDesc();
+    }
+
+    @Override
+    public List<DeGiay> findDeGiayByTen(String ten) {
+        return deGiayRepository.findDeGiayByTen(ten);
+    }
+
+    @Override
+    public List<DeGiay> findDeGiayByTenAndTrangThaiFalse(String ten) {
+        return deGiayRepository.findDeGiayByTenAndTrangThaiFalse(ten);
+    }
+
+
+    @Override
+    public void updateTrangThaiToFalseById(Integer id) {
+        deGiayRepository.updateTrangThaiToFalseById(id);
+    }
+
+    @Override
+    public boolean existsByTenDeGiay(String ten) {
+        return deGiayRepository.existsByTenDeGiay(ten);
+    }
 }

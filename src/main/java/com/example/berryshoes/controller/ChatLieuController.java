@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/chatlieu")
+@RequestMapping("/api/chat-lieu")
 @RequiredArgsConstructor
 public class ChatLieuController {
     private final ChatLieuService chatLieuService;
@@ -92,5 +92,10 @@ public class ChatLieuController {
         response.setNguoiCapNhat(chatLieu.getNguoiCapNhat());
         response.setTrangThai(chatLieu.getTrangThai());
         return response;
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<ChatLieu>> searchChatLieu(@RequestParam String ten, @RequestParam(required = false) Integer trangThai) {
+        List<ChatLieu> result = chatLieuService.findByTenAndTrangThai(ten, trangThai);
+        return ResponseEntity.ok(result);
     }
 }
