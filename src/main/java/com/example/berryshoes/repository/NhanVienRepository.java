@@ -4,9 +4,12 @@ import com.example.berryshoes.entity.NhanVien;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
-    Optional<NhanVien> findByTaiKhoan(String taiKhoan);
+    //    NhanVien findByTaiKhoan(String taiKhoan);
+    List<NhanVien> findAllByHoVaTenContaining(String hoVaTen);
+
+//    List<NhanVien> findByTrangThai(String trangThai);
 }

@@ -1,4 +1,4 @@
-package com.example.berryshoes.service;
+package com.example.berryshoes.security.service;
 
 import com.example.berryshoes.dto.request.NhanVienRequest;
 import com.example.berryshoes.entity.NhanVien;
@@ -19,9 +19,7 @@ public interface NhanVienService {
 
     void deleteNhanVien(Integer id);
 
-//    List<NhanVien> searchNhanVienByName(String hoVaTen);
-
-    List<NhanVien> findByHoVaTenAndTrangThai(String hoVaTen, Integer trangThai);
+    List<NhanVien> searchNhanVienByName(String hoVaTen);
     // Lọc nhân viên theo trạng thái
 //    List<NhanVien> filterNhanVienByStatus(String trangThai);
 
