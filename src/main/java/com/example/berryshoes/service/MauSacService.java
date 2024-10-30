@@ -16,4 +16,8 @@ public interface MauSacService {
     MauSac updateMauSac(Integer id, MauSacRequest requestDTO);
 
     void deleteMauSac(Integer id);
+
+    Optional<MauSac> getById(Integer id);
+    void deleteByTrangThai(Integer id);
+    List<MauSac> findByTenAndTrangThai(String ten, Integer trangThai);
 }

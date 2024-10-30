@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -118,4 +119,57 @@ public class DiaChiController {
         diaChiService.deleteDiaChi(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/details")
+    public ResponseEntity<DiaChi> getDiaChiByDetails(@RequestParam String ten, @RequestParam String sdt,
+                                                     @RequestParam String tenduong, @RequestParam String tinhthanh,
+                                                     @RequestParam String quanhuyen, @RequestParam String xaphuong) {
+        DiaChi diaChi = diaChiService.findByTenNguoiNhanAndSdtNguoiNhanAndTenDuongAndTinhThanhPhoAndQuanHuyenAndXaPhuong(ten, sdt, tenduong, tinhthanh, quanhuyen, xaphuong);
+        return ResponseEntity.ok(diaChi);
+    }
+
+    @GetMapping("/trangthai/{trangThai}")
+    public ResponseEntity<List<DiaChi>> getDiaChiByTrangThai(@PathVariable Integer trangThai) {
+        List<DiaChi> diaChiList = diaChiService.findByTrangThai(trangThai);
+        return ResponseEntity.ok(diaChiList);
+    }
+
+    @GetMapping("/khachhang/macdinh/{idKhachHang}")
+    public ResponseEntity<DiaChi> getDiaChiMacDinh(@PathVariable Integer idKhachHang) {
+        DiaChi diaChi = diaChiService.findByIdKhachHangMacDinh(idKhachHang);
+        return ResponseEntity.ok(diaChi);
+    }
+
+    @GetMapping("/khachhang/{idKhachHang}")
+    public ResponseEntity<List<DiaChi>> getDiaChiByIdKhachHang(@PathVariable Integer idKhachHang) {
+        List<DiaChi> diaChiList = diaChiService.findByIdKhachHang(idKhachHang);
+        return ResponseEntity.ok(diaChiList);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<DiaChi>> searchDiaChi(@RequestParam String ht, @RequestParam String sdt) {
+        List<DiaChi> diaChiList = diaChiService.findByHoTenHoacSdt(ht, sdt);
+        return ResponseEntity.ok(diaChiList);
+    }
+
+    @GetMapping("/key")
+    public ResponseEntity<List<DiaChi>> searchByKey(@RequestParam(required = false) String name,
+                                                    @RequestParam(required = false) Date startDate,
+                                                    @RequestParam(required = false) Date endDate,
+                                                    @RequestParam(required = false) Integer status) {
+        List<DiaChi> diaChiList = diaChiService.findByKey(name, startDate, endDate, status);
+        return ResponseEntity.ok(diaChiList);
+    }
+
+    @GetMapping("/tinhthanhpho")
+    public ResponseEntity<List<DiaChi>> searchByTinhThanhPho(@RequestParam String tinhThanhPho) {
+        List<DiaChi> diaChiList = diaChiService.findByTinhThanhPho(tinhThanhPho);
+        return ResponseEntity.ok(diaChiList);
+    }
+
+    @GetMapping("/khachhang/{idKhachHang}/trangthai/{trangThai}")
+    public ResponseEntity<List<DiaChi>> getDiaChiByIdKhachHangAndTrangThai(@PathVariable Integer idKhachHang, @PathVariable Integer trangThai) {
+        List<DiaChi> diaChiList = diaChiService.findByIdKhachHangAndTrangThai(idKhachHang, trangThai);
+        return ResponseEntity.ok(diaChiList);
+    }
+
 }

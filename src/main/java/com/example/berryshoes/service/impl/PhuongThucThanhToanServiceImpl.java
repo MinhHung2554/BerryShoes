@@ -1,6 +1,7 @@
 package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.PhuongThucThanhToanRequest;
+import com.example.berryshoes.entity.HoaDon;
 import com.example.berryshoes.entity.PhuongThucThanhToan;
 import com.example.berryshoes.repository.PhuongThucThanhToanRepository;
 import com.example.berryshoes.service.PhuongThucThanhToanService;
@@ -69,5 +70,14 @@ public class PhuongThucThanhToanServiceImpl implements PhuongThucThanhToanServic
         } else {
             throw new RuntimeException("Phương thức thanh toán không tồn tại"); // Ném exception nếu không tìm thấy
         }
+    }
+    @Override
+    public PhuongThucThanhToan getByIdHoaDon(Integer idHoaDon) {
+        return phuongThucThanhToanRepository.findByIdHoaDon(idHoaDon);
+    }
+
+    @Override
+    public List<PhuongThucThanhToan> getAllByHoaDon(HoaDon hd) {
+        return phuongThucThanhToanRepository.findAllByHoaDon(hd);
     }
 }

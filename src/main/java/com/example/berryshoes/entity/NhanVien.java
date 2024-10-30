@@ -56,8 +56,11 @@ public class NhanVien {
     @Column(name = "MatKhau", length = 300)
     private String matKhau;
 
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "VaiTro", columnDefinition = "int default 0")
+//    private Role vaiTro;
     @Column(name = "VaiTro", columnDefinition = "int default 0")
-    private Integer vaiTro = 0;
+    private Integer vaiTro;
 
     @CreationTimestamp
     @Column(name = "NgayTao", updatable = false)
