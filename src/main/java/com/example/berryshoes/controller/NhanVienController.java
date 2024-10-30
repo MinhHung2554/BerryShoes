@@ -1,44 +1,66 @@
 package com.example.berryshoes.controller;
 
-import ch.qos.logback.core.model.Model;
 import com.example.berryshoes.entity.NhanVien;
-import com.example.berryshoes.repository.NhanVienRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.berryshoes.security.service.NhanVienService;
+import com.example.berryshoes.dto.request.NhanVienRequest;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("NhanVien")
+@RequestMapping("/api/nhanvien")
+@RequiredArgsConstructor
 public class NhanVienController {
-    @Autowired
-    NhanVienRepository nhanVienRepository;
 
-    @GetMapping("index")
-    public List<NhanVien> index(Model model) {
-        return nhanVienRepository.findAll();
+    private final NhanVienService nhanVienService;
+
+    // Lấy tất cả nhân viên
+    @GetMapping
+    public ResponseEntity<List<NhanVien>> getAllNhanVien() {
+        List<NhanVien> nhanVienList = nhanVienService.getAllNhanVien();
+        return ResponseEntity.ok(nhanVienList);
     }
 
-    @PostMapping("add")
-    public NhanVien add(@RequestBody NhanVien nv) {
-        return nhanVienRepository.save(nv);
+    // Lấy nhân viên theo ID
+    @GetMapping("/{id}")
+    public ResponseEntity<NhanVien> getNhanVienById(@PathVariable Integer id) {
+        Optional<NhanVien> nhanVien = nhanVienService.getNhanVienById(id);
+        return nhanVien.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PutMapping("update/{id}")
-    public NhanVien put(@PathVariable("id") String id, @RequestBody NhanVien nv) {
-        nhanVienRepository.save(nv);
-        return nv;
+    // Tạo mới nhân viên
+    @PostMapping
+    public ResponseEntity<NhanVien> createNhanVien(@Valid @RequestBody NhanVienRequest requestDTO) {
+        NhanVien createdNhanVien = nhanVienService.createNhanVien(requestDTO);
+        return ResponseEntity.ok(createdNhanVien);
     }
 
-    @DeleteMapping("delete/{id}")
-    public void delete(@PathVariable Integer id) {
-        nhanVienRepository.deleteById(id);
-
+    // Cập nhật nhân viên
+    @PutMapping("/{id}")
+    public ResponseEntity<NhanVien> updateNhanVien(@PathVariable Integer id, @Valid @RequestBody NhanVienRequest requestDTO) {
+        NhanVien updatedNhanVien = nhanVienService.updateNhanVien(id, requestDTO);
+        return updatedNhanVien != null ? ResponseEntity.ok(updatedNhanVien) : ResponseEntity.notFound().build();
     }
-//    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
-//        nvRe.deleteById(id);
-//        return ResponseEntity.ok("ok");
-//    }
 
+    // Xóa nhân viên
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNhanVien(@PathVariable Integer id) {
+        nhanVienService.deleteNhanVien(id);
+        return ResponseEntity.noContent().build();
+    }
+    // Tìm kiếm nhân viên theo tên
+    @GetMapping("/search")
+    public ResponseEntity<List<NhanVien>> searchNhanVienByName(@RequestParam String hovaTen) {
+        List<NhanVien> nhanVienList = nhanVienService.searchNhanVienByName(hovaTen);
+        return ResponseEntity.ok(nhanVienList);
+    }
+    @GetMapping("/loc")
+    public ResponseEntity<List<NhanVien>> filterNhanVienByStatus(@RequestParam String trangThai) {
+        List<NhanVien> nhanVienList = nhanVienService.filterNhanVienByStatus(trangThai);
+        return ResponseEntity.ok(nhanVienList);
+    }
 }

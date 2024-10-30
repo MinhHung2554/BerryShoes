@@ -1,0 +1,19 @@
+package com.example.berryshoes.security.service;
+
+import com.example.berryshoes.dto.request.ChatLieuRequest;
+import com.example.berryshoes.entity.ChatLieu;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface ChatLieuService {
+    List<ChatLieu> getAllChatLieu();
+
+    Optional<ChatLieu> getChatLieuById(Integer id);
+
+    ChatLieu createChatLieu(ChatLieuRequest requestDTO);
+
+    ChatLieu updateChatLieu(Integer id, ChatLieuRequest requestDTO);
+
+    void deleteChatLieu(Integer id);
+}
