@@ -56,4 +56,27 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
             throw new RuntimeException("Thương hiệu không tồn tại");
         }
     }
+    @Override
+    public List<ThuongHieu> getThuongHieuByTenThuongHieuOrTrangThai(String tenThuongHieu, Integer trangThai) {
+        return thuongHieuRepository.getThuongHieuByTenThuongHieuOrTrangThai(tenThuongHieu, trangThai);
+    }
+
+    @Override
+    public List<ThuongHieu> findAllByOrderByNgayTaoDesc() {
+        return thuongHieuRepository.findAllByOrderByNgayTaoDesc();
+    }
+
+    @Override
+    public boolean existsByTenThuongHieu(String tenThuongHieu) {
+        return thuongHieuRepository.existsByTenThuongHieu(tenThuongHieu);
+    }
+
+    @Override
+    public List<ThuongHieu> findThuongHieuByTenAndTrangThaiFalse(String ten) {
+        return thuongHieuRepository.findThuongHieuByTenAndTrangThaiFalse(ten);
+    }
+    @Override
+    public void updateTrangThaiToFalseById(Integer id) {
+        thuongHieuRepository.updateTrangThaiToFalseById(id);
+    }
 }

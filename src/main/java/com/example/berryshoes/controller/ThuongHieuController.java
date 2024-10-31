@@ -95,4 +95,15 @@ public class ThuongHieuController {
         response.setTrangThai(thuongHieu.getTrangThai());
         return response;
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<ThuongHieu>> searchThuongHieu(@RequestParam String ten, @RequestParam(required = false) Integer trangThai) {
+        List<ThuongHieu> thuongHieus = thuongHieuService.getThuongHieuByTenThuongHieuOrTrangThai(ten, trangThai);
+        return ResponseEntity.ok(thuongHieus);
+    }
+
+    @PutMapping("/{id}/change")
+    public ResponseEntity<Void> changeTrangThai(@PathVariable Integer id) {
+        thuongHieuService.updateTrangThaiToFalseById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
