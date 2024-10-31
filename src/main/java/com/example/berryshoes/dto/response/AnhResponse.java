@@ -1,11 +1,13 @@
 package com.example.berryshoes.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
+@Builder
 public class AnhResponse {
     private Integer id;
     private String tenAnh;
