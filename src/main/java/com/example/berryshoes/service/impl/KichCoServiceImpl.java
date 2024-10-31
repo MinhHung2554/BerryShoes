@@ -56,4 +56,23 @@ public class KichCoServiceImpl implements KichCoService {
             throw new RuntimeException("Kích cỡ không tồn tại");
         }
     }
+    @Override
+    public List<KichCo> searchKichCoByTenAndTrangthai(String ten, Integer trangThai) {
+        return kichCoRepository.findByTenAndTrangthai(ten, trangThai);
+    }
+
+    @Override
+    public boolean existsByTenKichCo(String tenKichCo) {
+        return kichCoRepository.existsByTenKichCo(tenKichCo);
+    }
+
+    @Override
+    public KichCo saveKichCo(KichCo kichCo) {
+        return kichCoRepository.save(kichCo);
+    }
+
+    @Override
+    public void updateTrangThaiToFalseById(Integer id) {
+        kichCoRepository.updateTrangThaiToFalseById(id);
+    }
 }

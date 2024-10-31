@@ -16,4 +16,11 @@ public interface KichCoService {
     KichCo updateKichCo(Integer id, KichCoRequest requestDTO);
 
     void deleteKichCo(Integer id);
+    List<KichCo> searchKichCoByTenAndTrangthai(String ten, Integer trangThai);
+
+    boolean existsByTenKichCo(String tenKichCo);
+
+    KichCo saveKichCo(KichCo kichCo);
+
+    void updateTrangThaiToFalseById(Integer id);
 }
