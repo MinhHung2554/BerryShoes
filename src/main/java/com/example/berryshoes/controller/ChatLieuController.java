@@ -1,6 +1,6 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.security.service.ChatLieuService;
+import com.example.berryshoes.service.ChatLieuService;
 import com.example.berryshoes.dto.request.ChatLieuRequest;
 import com.example.berryshoes.dto.response.ChatLieuResponse;
 import com.example.berryshoes.entity.ChatLieu;

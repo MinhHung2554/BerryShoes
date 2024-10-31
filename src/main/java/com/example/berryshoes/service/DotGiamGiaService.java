@@ -1,4 +1,4 @@
-package com.example.berryshoes.security.service;
+package com.example.berryshoes.service;
 
 import com.example.berryshoes.dto.request.DotGiamGiaRequest;
 import com.example.berryshoes.dto.response.DotGiamGiaResponse;

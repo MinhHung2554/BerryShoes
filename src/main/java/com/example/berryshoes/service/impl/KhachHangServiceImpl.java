@@ -1,9 +1,9 @@
-package com.example.berryshoes.security.service.impl;
+package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.KhachHangRequest;
 import com.example.berryshoes.entity.KhachHang;
 import com.example.berryshoes.repository.KhachHangRepository;
-import com.example.berryshoes.security.service.KhachHangService;
+import com.example.berryshoes.service.KhachHangService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -72,5 +72,10 @@ public class KhachHangServiceImpl implements KhachHangService {
         } else {
             throw new RuntimeException("Khách hàng không tồn tại");
         }
+    }
+
+    @Override
+    public List<KhachHang> findByHoVaTenAndTrangThai(String hoVaTen, Integer trangThai) {
+        return khachHangRepository.findByHoVaTenAndTrangThai(hoVaTen, trangThai);
     }
 }

@@ -1,9 +1,9 @@
-package com.example.berryshoes.security.service.impl;
+package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.MauSacRequest;
 import com.example.berryshoes.entity.MauSac;
 import com.example.berryshoes.repository.MauSacRepository;
-import com.example.berryshoes.security.service.MauSacService;
+import com.example.berryshoes.service.MauSacService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

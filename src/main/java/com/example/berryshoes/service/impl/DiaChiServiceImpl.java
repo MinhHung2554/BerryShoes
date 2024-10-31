@@ -1,9 +1,9 @@
-package com.example.berryshoes.security.service.impl;
+package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.DiaChiRequest;
 import com.example.berryshoes.entity.DiaChi;
 import com.example.berryshoes.repository.DiaChiRepository;
-import com.example.berryshoes.security.service.DiaChiService;
+import com.example.berryshoes.service.DiaChiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

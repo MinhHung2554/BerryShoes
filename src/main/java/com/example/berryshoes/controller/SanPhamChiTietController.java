@@ -1,6 +1,6 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.security.service.SanPhamChiTietService;
+import com.example.berryshoes.service.SanPhamChiTietService;
 import com.example.berryshoes.dto.request.SanPhamChiTietRequest;
 import com.example.berryshoes.entity.SanPhamChiTiet;
 import lombok.RequiredArgsConstructor;

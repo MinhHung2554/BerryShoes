@@ -1,6 +1,6 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.security.service.DiaChiService;
+import com.example.berryshoes.service.DiaChiService;
 import com.example.berryshoes.dto.request.DiaChiRequest;
 import com.example.berryshoes.dto.response.DiaChiResponse;
 import com.example.berryshoes.entity.DiaChi;

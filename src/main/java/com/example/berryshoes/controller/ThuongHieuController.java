@@ -1,6 +1,6 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.security.service.ThuongHieuService;
+import com.example.berryshoes.service.ThuongHieuService;
 import com.example.berryshoes.dto.request.ThuongHieuRequest;
 import com.example.berryshoes.dto.response.ThuongHieuResponse;
 import com.example.berryshoes.entity.ThuongHieu;

@@ -1,4 +1,4 @@
-package com.example.berryshoes.security.service;
+package com.example.berryshoes.service;
 import com.example.berryshoes.dto.request.PhuongThucThanhToanRequest;
 import com.example.berryshoes.entity.PhuongThucThanhToan;
 import java.util.List;

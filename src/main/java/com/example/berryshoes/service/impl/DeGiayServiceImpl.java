@@ -1,9 +1,9 @@
-package com.example.berryshoes.security.service.impl;
+package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.DeGiayRequest;
 import com.example.berryshoes.entity.DeGiay;
 import com.example.berryshoes.repository.DeGiayRepository;
-import com.example.berryshoes.security.service.DeGiayService;
+import com.example.berryshoes.service.DeGiayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

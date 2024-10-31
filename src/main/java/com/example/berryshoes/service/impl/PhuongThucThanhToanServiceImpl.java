@@ -1,9 +1,9 @@
-package com.example.berryshoes.security.service.impl;
+package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.PhuongThucThanhToanRequest;
 import com.example.berryshoes.entity.PhuongThucThanhToan;
 import com.example.berryshoes.repository.PhuongThucThanhToanRepository;
-import com.example.berryshoes.security.service.PhuongThucThanhToanService;
+import com.example.berryshoes.service.PhuongThucThanhToanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

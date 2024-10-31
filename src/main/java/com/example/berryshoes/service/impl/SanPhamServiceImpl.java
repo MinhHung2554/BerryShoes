@@ -1,9 +1,9 @@
-package com.example.berryshoes.security.service.impl;
+package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.SanPhamRequest;
 import com.example.berryshoes.entity.SanPham;
 import com.example.berryshoes.repository.SanPhamRepository;
-import com.example.berryshoes.security.service.SanPhamService;
+import com.example.berryshoes.service.SanPhamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

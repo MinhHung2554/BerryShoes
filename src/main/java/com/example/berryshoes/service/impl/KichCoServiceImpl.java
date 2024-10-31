@@ -1,9 +1,9 @@
-package com.example.berryshoes.security.service.impl;
+package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.KichCoRequest;
 import com.example.berryshoes.entity.KichCo;
 import com.example.berryshoes.repository.KichCoRepository;
-import com.example.berryshoes.security.service.KichCoService;
+import com.example.berryshoes.service.KichCoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

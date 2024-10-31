@@ -1,9 +1,9 @@
-package com.example.berryshoes.security.service.impl;
+package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.ChatLieuRequest;
 import com.example.berryshoes.entity.ChatLieu;
 import com.example.berryshoes.repository.ChatLieuRepository;
-import com.example.berryshoes.security.service.ChatLieuService;
+import com.example.berryshoes.service.ChatLieuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

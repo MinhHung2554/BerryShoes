@@ -2,7 +2,7 @@ package com.example.berryshoes.controller;
 
 import com.example.berryshoes.dto.request.DotGiamGiaRequest;
 import com.example.berryshoes.dto.response.DotGiamGiaResponse;
-import com.example.berryshoes.security.service.DotGiamGiaService;
+import com.example.berryshoes.service.DotGiamGiaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

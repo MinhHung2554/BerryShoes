@@ -1,10 +1,10 @@
-package com.example.berryshoes.security.service.impl;
+package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.DotGiamGiaRequest;
 import com.example.berryshoes.dto.response.DotGiamGiaResponse;
 import com.example.berryshoes.entity.DotGiamGia;
 import com.example.berryshoes.repository.DotGiamGiaRepository;
-import com.example.berryshoes.security.service.DotGiamGiaService;
+import com.example.berryshoes.service.DotGiamGiaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.security.service.DeGiayService;
+import com.example.berryshoes.service.DeGiayService;
 import com.example.berryshoes.dto.request.DeGiayRequest;
 import com.example.berryshoes.dto.response.DeGiayResponse;
 import com.example.berryshoes.entity.DeGiay;
