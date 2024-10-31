@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/kichco")
+@RequestMapping("/api/kich-co")
 @RequiredArgsConstructor
 public class KichCoController {
     @Autowired
@@ -94,5 +94,14 @@ public class KichCoController {
         response.setNguoiCapNhat(kichCo.getNguoiCapNhat());
         response.setTrangThai(kichCo.getTrangThai());
         return response;
+    }
+    @GetMapping("/search")
+    public List<KichCo> searchKichCo(@RequestParam String ten, @RequestParam(required = false) Integer trangThai) {
+        return kichCoService.searchKichCoByTenAndTrangthai(ten, trangThai);
+    }
+    @PutMapping("/{id}/change")
+    public ResponseEntity<Void> changeTrangThai(@PathVariable Integer id) {
+        kichCoService.updateTrangThaiToFalseById(id);
+        return ResponseEntity.ok().build();
     }
 }
