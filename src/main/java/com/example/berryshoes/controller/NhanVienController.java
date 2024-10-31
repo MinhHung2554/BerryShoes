@@ -1,11 +1,11 @@
 package com.example.berryshoes.controller;
 
+import com.example.berryshoes.dto.response.NhanVienResponse;
 import com.example.berryshoes.entity.NhanVien;
-import com.example.berryshoes.security.service.NhanVienService;
+import com.example.berryshoes.service.NhanVienService;
 import com.example.berryshoes.dto.request.NhanVienRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +37,20 @@ public class NhanVienController {
     @PostMapping
     public ResponseEntity<NhanVien> createNhanVien(@Valid @RequestBody NhanVienRequest requestDTO) {
         NhanVien createdNhanVien = nhanVienService.createNhanVien(requestDTO);
+        NhanVienResponse reponse = new NhanVienResponse();
+        reponse.setId(createdNhanVien.getId());
+        reponse.setMaNhanVien(createdNhanVien.getMaNhanVien());
+        reponse.setAnh(createdNhanVien.getAnh());
+        reponse.setHoVaTen(createdNhanVien.getHoVaTen());
+        reponse.setEmail(createdNhanVien.getEmail());
+        reponse.setGioiTinh(createdNhanVien.getGioiTinh());
+        reponse.setSoDienThoai(createdNhanVien.getSoDienThoai());
+        reponse.setTaiKhoan(createdNhanVien.getTaiKhoan());
+        reponse.setVaiTro(createdNhanVien.getVaiTro());
+        reponse.setNguoiTao(createdNhanVien.getNguoiTao());
+        reponse.setNgayTao(createdNhanVien.getNgayTao());
+        reponse.setNguoiCapNhat(createdNhanVien.getNguoiCapNhat());
+        reponse.setLanCapNhatCuoi(createdNhanVien.getLanCapNhatCuoi());
         return ResponseEntity.ok(createdNhanVien);
     }
 
@@ -54,13 +68,36 @@ public class NhanVienController {
         return ResponseEntity.noContent().build();
     }
 
-    // Tìm kiếm nhân viên theo tên
+    private NhanVienResponse convertToResponse(NhanVien nv) {
+        NhanVienResponse response = new NhanVienResponse();
+        response.setId(nv.getId());
+        response.setMaNhanVien(nv.getMaNhanVien());
+        response.setAnh(nv.getAnh());
+        response.setHoVaTen(nv.getHoVaTen());
+        response.setEmail(nv.getEmail());
+        response.setGioiTinh(nv.getGioiTinh());
+        response.setSoDienThoai(nv.getSoDienThoai());
+        response.setTaiKhoan(nv.getTaiKhoan());
+        response.setVaiTro(nv.getVaiTro());
+        response.setNguoiTao(nv.getNguoiTao());
+        response.setNgayTao(nv.getNgayTao());
+        response.setNguoiCapNhat(nv.getNguoiCapNhat());
+        response.setLanCapNhatCuoi(nv.getLanCapNhatCuoi());
+        return response;
+    }
+
+    // Tìm kiếm nhân viên theo tên và trangThai
+//    @GetMapping("/search")
+//    public ResponseEntity<?> searchNhanVienByName(@RequestBody String hovaTen) {
+//        List<NhanVien> nhanVienList = nhanVienService.searchNhanVienByName(hovaTen);
+//        if (nhanVienList == null || nhanVienList.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy nhân viên");
+//        }
+//        return ResponseEntity.ok(nhanVienList);
+//    }
     @GetMapping("/search")
-    public ResponseEntity<?> searchNhanVienByName(@RequestBody String hovaTen) {
-        List<NhanVien> nhanVienList = nhanVienService.searchNhanVienByName(hovaTen);
-        if (nhanVienList == null || nhanVienList.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy nhân viên");
-        }
+    public ResponseEntity<List<NhanVien>> searchNhanVien(@RequestParam String hoVaTen, @RequestParam(required = false) Integer trangThai) {
+        List<NhanVien> nhanVienList = nhanVienService.findByHoVaTenAndTrangThai(hoVaTen, trangThai);
         return ResponseEntity.ok(nhanVienList);
     }
 

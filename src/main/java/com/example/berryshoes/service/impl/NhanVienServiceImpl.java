@@ -1,9 +1,9 @@
-package com.example.berryshoes.security.service.impl;
+package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.NhanVienRequest;
 import com.example.berryshoes.entity.NhanVien;
 import com.example.berryshoes.repository.NhanVienRepository;
-import com.example.berryshoes.security.service.NhanVienService;
+import com.example.berryshoes.service.NhanVienService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -82,8 +82,8 @@ public class NhanVienServiceImpl implements NhanVienService {
 
     // Tìm kiếm nhân viên theo tên
     @Override
-    public List<NhanVien> searchNhanVienByName(String hoVaTen) {
-        return nhanVienRepository.findAllByHoVaTenContaining(hoVaTen);
+    public List<NhanVien> findByHoVaTenAndTrangThai(String hoVaTen, Integer trangThai) {
+        return nhanVienRepository.findByHoVaTenAndTrangThai(hoVaTen, trangThai);
     }
 
     //Lọc nhân viên theo trạng thái

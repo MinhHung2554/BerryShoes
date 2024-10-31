@@ -1,6 +1,5 @@
 package com.example.berryshoes.controller;
 
-import com.example.berryshoes.entity.HoaDon;
 import com.example.berryshoes.service.PhuongThucThanhToanService;
 import com.example.berryshoes.dto.request.PhuongThucThanhToanRequest;
 import com.example.berryshoes.entity.PhuongThucThanhToan;
@@ -50,14 +49,5 @@ public class PhuongThucThanhToanController {
     public ResponseEntity<Void> deletePhuongThucThanhToan(@PathVariable Integer id) {
         phuongThucThanhToanService.delete(id);
         return ResponseEntity.noContent().build();
-    }
-    @GetMapping("/hoa-don/{id}")
-    public PhuongThucThanhToan getByIdHoaDon(@PathVariable Integer id) {
-        return phuongThucThanhToanService.getByIdHoaDon(id);
-    }
-
-    @GetMapping("/hoa-don")
-    public List<PhuongThucThanhToan> getAllByHoaDon(@RequestBody HoaDon hd) {
-        return phuongThucThanhToanService.getAllByHoaDon(hd);
     }
 }
