@@ -1,6 +1,7 @@
 // src/components/ProductTable.js
 import React, { useState } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 // Nhập hình ảnh từ thư mục assets
 import shoeImage from '../assets/logo.png';
@@ -33,7 +34,7 @@ function ProductTable() {
   const totalAmount = products.reduce((sum, product) => sum + product.price * product.quantity, 0);
 
   return (
-    <div style={{ padding: '20px', backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+    <div>
       {/* Hàng chứa mã hóa đơn và các nút điều khiển */}
       <Row className="mb-3">
         <Col md={6}>
@@ -46,39 +47,38 @@ function ProductTable() {
       </Row>
 
       {/* Bảng sản phẩm */}
-      <table className="table mt-3" style={{ borderCollapse: 'separate', borderSpacing: '0 10px' }}>
+      <table className="table mt-3">
         <thead>
-          <tr style={{ backgroundColor: '#F8E7CA', borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }}>
-            <th style={{ padding: '12px', borderTopLeftRadius: '8px' }}>STT</th>
-            <th style={{ padding: '12px' }}>Ảnh</th>
-            <th style={{ padding: '12px' }}>Sản phẩm</th>
-            <th style={{ padding: '12px' }}>Số lượng</th>
-            <th style={{ padding: '12px' }}>Tổng tiền</th>
-            <th style={{ padding: '12px', borderTopRightRadius: '8px' }}>Thao tác</th>
+          <tr style={{ backgroundColor: '#F8E7CA' }}>
+            <th>STT</th>
+            <th>Ảnh</th>
+            <th>Sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Tổng tiền</th>
+            <th>Thao tác</th>
           </tr>
         </thead>
         <tbody>
           {products.map((product, index) => (
-            <tr key={product.id} >
-              <td style={{ padding: '10px' }}>{index + 1}</td>
-              <td style={{ padding: '10px' }}>
-                <img src={shoeImage} alt={product.name} style={{ width: '50px', borderRadius: '4px' }} />
+            <tr key={product.id}>
+              <td>{index + 1}</td>
+              <td>
+                <img src={shoeImage} alt={product.name} style={{ width: '50px' }} />
               </td>
-              <td style={{ padding: '10px' }}>
+              <td>
                 {product.name}<br />
                 {product.price.toLocaleString()} đ<br />
                 Size: {product.size}
               </td>
-              <td style={{ padding: '10px' }}>
+              <td>
                 <button className="btn btn-light btn-sm me-1" onClick={() => handleDecrement(product.id)}>-</button>
                 {product.quantity}
                 <button className="btn btn-light btn-sm ms-1" onClick={() => handleIncrement(product.id)}>+</button>
               </td>
-              <td style={{ padding: '10px' }}>{(product.price * product.quantity).toLocaleString()} đ</td>
-              <td style={{ padding: '10px' }}>
-                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(product.id)}>
-                  <i className="fas fa-trash"></i>
-                </button>
+              <td>{(product.price * product.quantity).toLocaleString()} đ</td>
+              <td>
+                <Button variant="link"><FaEdit /></Button>
+                <Button variant="link" className="text-danger" onClick={() => handleDelete(product.id)}><FaTrash /></Button>
               </td>
             </tr>
           ))}
