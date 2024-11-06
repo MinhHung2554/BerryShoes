@@ -5,6 +5,8 @@ import com.example.berryshoes.entity.MauSac;
 import com.example.berryshoes.entity.SanPham;
 import com.example.berryshoes.entity.SanPhamChiTiet;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -95,5 +97,6 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
    // tìm sản phẩm chi tiết theo kích cỡ và màu sắc
    @Query("SELECT spct FROM SanPhamChiTiet spct WHERE spct.sanPham.id = :sanPhamId AND spct.mauSac.tenMauSac = :color AND spct.kichCo.tenKichCo = :size")
    SanPhamChiTiet findBySanPhamIdAndColorAndSize(@Param("sanPhamId") Integer sanPhamId, @Param("color") String color, @Param("size") String size);
-
+//   //Lấy tat ca sp co sl lon
+//   Page<SanPhamChiTiet> findAllBySoluongLon(Integer soluong, Pageable p);
 }
