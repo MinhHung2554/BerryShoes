@@ -11,5 +11,5 @@ public class SanPhamRequest {
     private Integer idDeGiay;
     private String nguoiTao;
     private String nguoiCapNhat;
-    private Boolean trangThai = true;
+    private Integer trangThai;
 }

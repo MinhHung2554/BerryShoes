@@ -1,7 +1,11 @@
 package com.example.berryshoes.dto.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class SanPhamChiTietRequest {
     private String maSanPhamChiTiet;
@@ -15,5 +19,11 @@ public class SanPhamChiTietRequest {
     private Integer idDotGiamGia; // ID của đợt giảm giá (nếu có)
     private String nguoiTao;
     private String nguoiCapNhat;
-    private Boolean trangThai = true;
+    private Integer trangThai;
+//    public SanPhamChiTietRequest(Integer id, String maSanPhamChiTiet, Integer soLuong, Double giaTien,
+//                                 String ngayTao, String tenKichCo, String maMauSac, String tenMauSac,
+//                                 Double giaTriGiam, String ngayBatDau,
+//                                 String tenThuongHieu, String tenChatLieu, String tenDeGiay) {
+//        // Gán giá trị cho các trường
+//    }
 }
