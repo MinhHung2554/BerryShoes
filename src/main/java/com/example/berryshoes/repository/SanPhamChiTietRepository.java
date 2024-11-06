@@ -1,11 +1,12 @@
 package com.example.berryshoes.repository;
 
-import com.example.berryshoes.dto.request.SanPhamChiTietRequest;
 import com.example.berryshoes.entity.KichCo;
 import com.example.berryshoes.entity.MauSac;
 import com.example.berryshoes.entity.SanPham;
 import com.example.berryshoes.entity.SanPhamChiTiet;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -32,9 +33,6 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             SELECT s FROM SanPhamChiTiet s WHERE s.sanPham.id = :id AND s.mauSac.tenMauSac LIKE %:ten%
             """)
     List<SanPhamChiTiet> listSizeColor(@Param("id") Integer id, @Param("ten") String ten);
-
-    @Query("SELECT spct.giaTien FROM SanPhamChiTiet spct WHERE spct.id = :productId")
-    BigDecimal findPriceByProductId(@Param("productId") Integer id);
 
     @Query("SELECT s FROM SanPhamChiTiet s WHERE s.sanPham.id = :id ")
     List<SanPhamChiTiet> listAllSize(@Param("id") Integer id);
@@ -81,5 +79,21 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             "AND (?4 IS NULL OR " + " spct.sanPham.deGiay.id=?4) AND (?5 IS NULL OR spct.kichCo.id=?5) AND (?6 IS NULL OR spct.mauSac.id=?6)" +
             "AND (?7 IS NULL OR spct.sanPham.chatLieu.id=?7) AND (?8 IS NULL OR spct.sanPham.trangThai=?8)")
     List<SanPhamChiTiet> search(String key, String maSPCT, Integer idThuongHieu, Integer idDeGiay, Integer idKichCo, Integer idMauSac, Integer idChatLieu, Integer trangThai);
+   @Query("SELECT spct FROM SanPhamChiTiet spct WHERE spct.sanPham.id = :Id")
+   List<SanPhamChiTiet> findBySanPhamId(@Param("Id") Integer Id);
+   //update số lượng và giá tiền
+   @Transactional
+   @Modifying
+   @Query(value = "UPDATE SanPhamChiTiet SET soLuong = :soLuong, giaTien = :giaTien WHERE id = :id", nativeQuery = true)
+   void updateSoLuongVaGiaTienById(@Param("id") Integer id, @Param("soLuong") Integer soLuong, @Param("giaTien") BigDecimal giaTien);
+   // lấy id by sản phẩm
+   @Query("SELECT s.sanPham.id FROM SanPhamChiTiet s WHERE s.id = :spctId")
+   Integer findIdBySanpham(Integer spctId);
+   // dùng để lấy giá tiền của spct
+   @Query("SELECT spct.giaTien FROM SanPhamChiTiet spct WHERE spct.id = :productId")
+   BigDecimal findPriceByProductId(@Param("productId") Integer id);
+   // tìm sản phẩm chi tiết theo kích cỡ và màu sắc
+   @Query("SELECT spct FROM SanPhamChiTiet spct WHERE spct.sanPham.id = :sanPhamId AND spct.mauSac.tenMauSac = :color AND spct.kichCo.tenKichCo = :size")
+   SanPhamChiTiet findBySanPhamIdAndColorAndSize(@Param("sanPhamId") Integer sanPhamId, @Param("color") String color, @Param("size") String size);
 
 }
