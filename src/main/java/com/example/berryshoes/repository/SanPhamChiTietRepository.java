@@ -50,9 +50,36 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             @Param("key") String key,
             @Param("idKichCo") Integer idKichCo,
             @Param("idMauSac") Integer idMauSac,
-            @Param("trangThai") Boolean trangThai
+            @Param("trangThai") Integer trangThai
     );
     @Query(" SELECT s FROM SanPhamChiTiet s WHERE  s.mauSac=?1 AND s.kichCo=?2 AND s.sanPham=?3")
     SanPhamChiTiet findSPCT(MauSac mauSac, KichCo kichCo, SanPham sanPham);
+
+    // check trùng màu sắc và kích cỡ
+    boolean existsByMauSacAndKichCo(MauSac mauSac, KichCo kichCo);
+    // tìm theo sản phẩm
+    List<SanPhamChiTiet> findBysanPham(SanPham sanPham);
+    Boolean existsByMaSanPhamChiTiet(String ma);
+    @Query("SELECT c FROM SanPhamChiTiet c WHERE c.maSanPhamChiTiet like %?1%")
+    List<SanPhamChiTiet> searchSPCTtheoMa(String maSP);
+    // dùng cho giỏ hàng
+    @Query(value = """
+            SELECT s FROM SanPhamChiTiet s WHERE  s.id=:Id
+            """)
+    SanPhamChiTiet findByIdSPCT(Integer Id);
+    @Query("SELECT c FROM SanPhamChiTiet c WHERE c.sanPham.tenSanPham like %?1% and c.sanPham.chatLieu.tenChatLieu like %?2% and c.sanPham.thuongHieu.tenThuongHieu like %?3% and c.sanPham.deGiay.tenDeGiay like %?4% and c.kichCo.tenKichCo like %?5% and c.mauSac.tenMauSac like %?6% and c.giaTien <= ?7 and c.soLuong >0")
+    List<SanPhamChiTiet> searchSPCT(String tenSP, String chatLieu,
+                                    String thuongHieu, String deGiay,
+                                    String kichCo, String mauSac,
+                                    BigDecimal giaTien);
+
+    // dùng để lấy id cao nhất
+    @Query(value = "SELECT MAX(spct.id) FROM SanPhamChiTiet spct")
+    Integer findMaxIdSPCT();
+    //dùng cho search các thuộc tính sản phẩm chi tiết
+    @Query("SELECT spct FROM SanPhamChiTiet spct WHERE (spct.sanPham.tenSanPham LIKE ?1 OR spct.maSanPhamChiTiet LIKE ?2) AND (?3 IS NULL OR spct.sanPham.thuongHieu.id=?3) " +
+            "AND (?4 IS NULL OR " + " spct.sanPham.deGiay.id=?4) AND (?5 IS NULL OR spct.kichCo.id=?5) AND (?6 IS NULL OR spct.mauSac.id=?6)" +
+            "AND (?7 IS NULL OR spct.sanPham.chatLieu.id=?7) AND (?8 IS NULL OR spct.sanPham.trangThai=?8)")
+    List<SanPhamChiTiet> search(String key, String maSPCT, Integer idThuongHieu, Integer idDeGiay, Integer idKichCo, Integer idMauSac, Integer idChatLieu, Integer trangThai);
 
 }
