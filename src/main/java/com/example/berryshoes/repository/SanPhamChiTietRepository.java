@@ -1,6 +1,8 @@
 package com.example.berryshoes.repository;
 
 import com.example.berryshoes.dto.request.SanPhamChiTietRequest;
+import com.example.berryshoes.entity.KichCo;
+import com.example.berryshoes.entity.MauSac;
 import com.example.berryshoes.entity.SanPham;
 import com.example.berryshoes.entity.SanPhamChiTiet;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -50,4 +52,7 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             @Param("idMauSac") Integer idMauSac,
             @Param("trangThai") Boolean trangThai
     );
+    @Query(" SELECT s FROM SanPhamChiTiet s WHERE  s.mauSac=?1 AND s.kichCo=?2 AND s.sanPham=?3")
+    SanPhamChiTiet findSPCT(MauSac mauSac, KichCo kichCo, SanPham sanPham);
+
 }
