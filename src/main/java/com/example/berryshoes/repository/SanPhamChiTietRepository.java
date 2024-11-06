@@ -1,6 +1,7 @@
 package com.example.berryshoes.repository;
 
 import com.example.berryshoes.dto.request.SanPhamChiTietRequest;
+import com.example.berryshoes.entity.SanPham;
 import com.example.berryshoes.entity.SanPhamChiTiet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -35,4 +36,18 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
 
     @Query("SELECT s FROM SanPhamChiTiet s WHERE s.sanPham.id = :id ")
     List<SanPhamChiTiet> listAllSize(@Param("id") Integer id);
+
+    // search theo biến thể sản phẩm
+    @Query("SELECT spct FROM SanPhamChiTiet spct WHERE spct.sanPham = :sanPham " +
+            "AND (:key IS NULL OR spct.sanPham.tenSanPham LIKE :key OR spct.maSanPhamChiTiet LIKE :key) " +
+            "AND (:idKichCo IS NULL OR spct.kichCo.id = :idKichCo) " +
+            "AND (:idMauSac IS NULL OR spct.mauSac.id = :idMauSac) " +
+            "AND (:trangThai IS NULL OR spct.sanPham.trangThai = :trangThai)")
+    List<SanPhamChiTiet> searchBySanPham(
+            @Param("sanPham") SanPham sanPham,
+            @Param("key") String key,
+            @Param("idKichCo") Integer idKichCo,
+            @Param("idMauSac") Integer idMauSac,
+            @Param("trangThai") Boolean trangThai
+    );
 }
