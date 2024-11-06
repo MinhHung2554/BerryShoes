@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,24 +87,20 @@ public class NhanVienController {
         return response;
     }
 
-    // Tìm kiếm nhân viên theo tên và trangThai
-//    @GetMapping("/search")
-//    public ResponseEntity<?> searchNhanVienByName(@RequestBody String hovaTen) {
-//        List<NhanVien> nhanVienList = nhanVienService.searchNhanVienByName(hovaTen);
-//        if (nhanVienList == null || nhanVienList.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy nhân viên");
-//        }
-//        return ResponseEntity.ok(nhanVienList);
-//    }
-    @GetMapping("/search")
-    public ResponseEntity<List<NhanVien>> searchNhanVien(@RequestParam String hoVaTen, @RequestParam(required = false) Integer trangThai) {
+    // Tìm kiếm nhân viên theo tên và trạng thái
+    @GetMapping("/filter")
+    public ResponseEntity<List<NhanVien>> filterNhanVien(@RequestParam(required = false) String hoVaTen,
+                                                         @RequestParam(required = false) Integer trangThai) {
         List<NhanVien> nhanVienList = nhanVienService.findByHoVaTenAndTrangThai(hoVaTen, trangThai);
         return ResponseEntity.ok(nhanVienList);
     }
 
-//    @GetMapping("/loc")
-//    public ResponseEntity<List<NhanVien>> filterNhanVienByStatus(@RequestParam Integer trangThai) {
-//        List<NhanVien> nhanVienList = nhanVienService.filterNhanVienByStatus(trangThai);
-//        return ResponseEntity.ok(nhanVienList);
-//    }
+    // Lọc nhân viên theo ngày tạo và trạng thái
+    @GetMapping("/filterByDate")
+    public ResponseEntity<List<NhanVien>> filterNhanVienByDate(@RequestParam(required = false) Date startDate,
+                                                               @RequestParam(required = false) Date endDate,
+                                                               @RequestParam(required = false) Integer trangThai) {
+        List<NhanVien> nhanVienList = nhanVienService.findByFilter(startDate, endDate, trangThai);
+        return ResponseEntity.ok(nhanVienList);
+    }
 }

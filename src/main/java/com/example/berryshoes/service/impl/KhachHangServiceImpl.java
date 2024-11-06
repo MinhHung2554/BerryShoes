@@ -1,6 +1,7 @@
 package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.KhachHangRequest;
+import com.example.berryshoes.dto.response.KhachHangResponse;
 import com.example.berryshoes.entity.KhachHang;
 import com.example.berryshoes.repository.KhachHangRepository;
 import com.example.berryshoes.service.KhachHangService;
@@ -78,4 +79,5 @@ public class KhachHangServiceImpl implements KhachHangService {
     public List<KhachHang> findByHoVaTenAndTrangThai(String hoVaTen, Integer trangThai) {
         return khachHangRepository.findByHoVaTenAndTrangThai(hoVaTen, trangThai);
     }
+
 }

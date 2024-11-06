@@ -2,6 +2,7 @@ package com.example.berryshoes.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,13 +24,16 @@ public class GioHang {
 
     @ManyToOne
     @JoinColumn(name = "IdKhachHang", nullable = false)
+    @NotNull(message = "ID khách hàng không được để trống")
     private KhachHang khachHang;
 
     @ManyToOne
     @JoinColumn(name = "IdSanPhamChiTiet", nullable = false)
+    @NotNull(message = "ID sản phẩm không được để trống")
     private SanPhamChiTiet sanPhamChiTiet;
 
     @Column(name = "SoLuong")
+    @NotNull(message = "Số lượng không được để trống")
     private Short soLuong;
 
     @CreationTimestamp

@@ -12,8 +12,15 @@ import java.util.List;
 @Repository
 public interface KhachHangRepository extends JpaRepository<KhachHang, Integer> {
     KhachHang findByTaiKhoan(String taiKhoan);
-    @Query("SELECT kh FROM KhachHang kh WHERE (kh.hoVaTen LIKE %:hoVaTen%) AND (:trangThai IS NULL OR kh.trangThai = :trangThai)")
-    List<KhachHang> findByHoVaTenAndTrangThai(@Param("hoVaTen") String hoVaTen, @Param("trangThai") Integer trangThai);
+    // Tìm kiếm theo họ và tên hoặc số điện thoại
+    @Query("SELECT k FROM KhachHang k WHERE k.hoVaTen LIKE %:name% OR k.soDienThoai LIKE %:phone%")
+    List<KhachHang> findByHoVaTenOrSoDienThoai(@Param("name") String name, @Param("phone") String phone);
 
+    // Tìm kiếm theo họ và tên và trạng thái
+    @Query("SELECT k FROM KhachHang k WHERE k.hoVaTen LIKE %:name% AND (:status is null or k.trangThai = :status)")
+    List<KhachHang> findByHoVaTenAndTrangThai(@Param("name") String name, @Param("status") Integer status);
+
+    // Lọc theo trạng thái
+    List<KhachHang> findByTrangThai(Integer trangThai);
 }
 

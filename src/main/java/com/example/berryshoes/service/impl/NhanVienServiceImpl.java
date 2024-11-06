@@ -7,6 +7,7 @@ import com.example.berryshoes.service.NhanVienService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,16 +80,39 @@ public class NhanVienServiceImpl implements NhanVienService {
             throw new RuntimeException("Nhân viên không tồn tại");
         }
     }
+    // Tìm kiếm nhân viên theo tên hoặc số điện thoại
+    @Override
+    public List<NhanVien> findByHoVaTenOrSoDienThoai(String hoVaTen, String soDienThoai) {
+        return nhanVienRepository.findByHoVaTenOrSoDienThoai(hoVaTen, soDienThoai);
+    }
 
-    // Tìm kiếm nhân viên theo tên
+    // Lọc nhân viên theo trạng thái
+    @Override
+    public List<NhanVien> findByTrangThai(Integer trangThai) {
+        return nhanVienRepository.findByTrangThai(trangThai);
+    }
+
+    // Tìm kiếm nhân viên theo tên và trạng thái
     @Override
     public List<NhanVien> findByHoVaTenAndTrangThai(String hoVaTen, Integer trangThai) {
         return nhanVienRepository.findByHoVaTenAndTrangThai(hoVaTen, trangThai);
     }
 
-    //Lọc nhân viên theo trạng thái
-//    @Override
-//    public List<NhanVien> filterNhanVienByStatus(String trangThai) {
-//        return nhanVienRepository.findByTrangThai(trangThai);
-//    }
+    // Lọc nhân viên theo ngày tạo và trạng thái
+    @Override
+    public List<NhanVien> findByFilter(Date startDate, Date endDate, Integer trangThai) {
+        return nhanVienRepository.findByFilter(startDate, endDate, trangThai);
+    }
+
+    // Lấy nhân viên mặc định theo ID
+    @Override
+    public NhanVien findByIdNhanVienMacDinh(Integer idNhanVien) {
+        return nhanVienRepository.findByIdNhanVienMacDinh(idNhanVien);
+    }
+
+    // Tìm nhân viên theo mã nhân viên
+    @Override
+    public NhanVien findByMaNhanVien(String maNhanVien) {
+        return nhanVienRepository.findByMaNhanVien(maNhanVien);
+    }
 }
