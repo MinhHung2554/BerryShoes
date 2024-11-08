@@ -1,9 +1,6 @@
 package com.example.berryshoes.repository;
 
-import com.example.berryshoes.entity.KichCo;
-import com.example.berryshoes.entity.MauSac;
-import com.example.berryshoes.entity.SanPham;
-import com.example.berryshoes.entity.SanPhamChiTiet;
+import com.example.berryshoes.entity.*;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -99,4 +96,18 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
    SanPhamChiTiet findBySanPhamIdAndColorAndSize(@Param("sanPhamId") Integer sanPhamId, @Param("color") String color, @Param("size") String size);
 //   //Lấy tat ca sp co sl lon
 //   Page<SanPhamChiTiet> findAllBySoluongLon(Integer soluong, Pageable p);
+@Query("SELECT d FROM DotGiamGia d WHERE d.id =:IdDot")
+    List<SanPhamChiTiet> findSanPhamDotGiamByIdDotgiamgia(Integer IdDot);
+//    List<DotGiamGia> findBySanPhamChiTiet(SanPhamChiTiet spct);
+    /// Đợt giảm của spct
+    @Query("""
+        SELECT d FROM DotGiamGia d 
+        WHERE d.trangThai = 1 
+        AND d.id = :id
+       """)
+    SanPhamChiTiet findDotGiamSPCT(@Param("id") Integer id);
+    @Query("""
+            SELECT s FROM SanPhamChiTiet s WHERE s.dotGiamGia.trangThai=1
+            """)
+    List<SanPhamChiTiet> ListDotGiamDangHD();
 }
