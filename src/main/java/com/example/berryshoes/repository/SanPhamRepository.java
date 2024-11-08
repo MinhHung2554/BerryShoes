@@ -11,4 +11,16 @@ import java.util.List;
 @Repository
 public interface SanPhamRepository extends JpaRepository<SanPham, Integer> {
 
+    @Query(nativeQuery = true, value = """
+            SELECT * FROM SanPham WHERE TrangThai=1
+               ORDER BY NgayTao DESC
+            """)
+    List<SanPham> getAllByNgayTao();
+    // tìm id lớn nhất bên sp
+    @Query(value = "SELECT MAX(s.id) FROM SanPham s")
+    Integer findMaxIdSP();
+
+    SanPham findFirstByOrderByNgayTaoDesc();
+
+    boolean existsByTenSanPham(String tensanpham);
 }
