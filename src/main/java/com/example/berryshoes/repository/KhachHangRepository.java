@@ -2,25 +2,59 @@ package com.example.berryshoes.repository;
 
 import com.example.berryshoes.entity.KhachHang;
 import com.example.berryshoes.entity.NhanVien;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface KhachHangRepository extends JpaRepository<KhachHang, Integer> {
-    KhachHang findByTaiKhoan(String taiKhoan);
-    // Tìm kiếm theo họ và tên hoặc số điện thoại
-    @Query("SELECT k FROM KhachHang k WHERE k.hoVaTen LIKE %:name% OR k.soDienThoai LIKE %:phone%")
-    List<KhachHang> findByHoVaTenOrSoDienThoai(@Param("name") String name, @Param("phone") String phone);
+    // Tìm Khách Hàng theo tài khoản
+    @Query("SELECT kh FROM KhachHang kh WHERE kh.taiKhoan = ?1")
+    KhachHang findKhachHangByTaikhoan(String taiKhoan);
 
-    // Tìm kiếm theo họ và tên và trạng thái
-    @Query("SELECT k FROM KhachHang k WHERE k.hoVaTen LIKE %:name% AND (:status is null or k.trangThai = :status)")
-    List<KhachHang> findByHoVaTenAndTrangThai(@Param("name") String name, @Param("status") Integer status);
+    // Tìm Khách Hàng theo tên hoặc số điện thoại
+    @Query("SELECT kh FROM KhachHang kh WHERE kh.hoVaTen LIKE %:hoVaTen% OR kh.soDienThoai LIKE %:soDienThoai%")
+    List<KhachHang> findByHoVaTenOrSoDienThoai(@Param("hoVaTen") String hoVaTen,
+                                               @Param("soDienThoai") String soDienThoai);
 
-    // Lọc theo trạng thái
-    List<KhachHang> findByTrangThai(Integer trangThai);
+    // Tìm Khách Hàng theo ngày sinh
+    @Query("SELECT kh FROM KhachHang kh WHERE kh.ngaySinh BETWEEN :startDate AND :endDate")
+    List<KhachHang> findKhachHangByNgaySinhBetween(@Param("startDate") Date startDate,
+                                                   @Param("endDate") Date endDate);
+
+    // Tìm Khách Hàng theo email
+    @Query("SELECT kh FROM KhachHang kh WHERE kh.email = :email")
+    KhachHang findKhachHangByEmail(@Param("email") String email);
+
+    // Tìm Khách Hàng theo email (không dùng query)
+    KhachHang findByEmail(String email);
+
+    // Cập nhật mật khẩu cho Khách Hàng
+    @Transactional
+    @Modifying
+    @Query("UPDATE KhachHang kh SET kh.matKhau = :newPassword WHERE kh.taiKhoan = :taiKhoan")
+    void updatePassword(@Param("taiKhoan") String taiKhoan, @Param("newPassword") String newPassword);
+
+    // Kiểm tra tồn tại số điện thoại
+    boolean existsBySoDienThoai(String soDienThoai);
+
+    // Kiểm tra tồn tại email
+    boolean existsByEmail(String email);
+    // Tìm Khách Hàng theo số điện thoại
+    @Query("SELECT k FROM KhachHang k WHERE k.soDienThoai = ?1")
+    KhachHang searchKhachHangBySoDienThoai(String soDienThoai);
+
+    // Tìm Khách Hàng theo ID
+    @Query("SELECT k FROM KhachHang k WHERE k.id = ?1")
+    KhachHang searchKhachHangById(Integer id);
+    // Lấy tất cả Khách Hàng, sắp xếp theo ID giảm dần
+    List<KhachHang> findAllByOrderByIdDesc();
+
 }
 

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,10 +83,58 @@ public class KhachHangController {
         return response;
     }
 
-    // Tìm kiếm
+    // Tìm khách hàng theo tài khoản
+    @GetMapping("/taikhoan/{taiKhoan}")
+    public ResponseEntity<KhachHang> getKhachHangByTaiKhoan(@PathVariable String taiKhoan) {
+        KhachHang khachHang = khachHangService.findKhachHangByTaikhoan(taiKhoan);
+        return khachHang != null ? ResponseEntity.ok(khachHang) : ResponseEntity.notFound().build();
+    }
+    // Tìm khách hàng theo tên hoặc số điện thoại
     @GetMapping("/search")
-    public ResponseEntity<List<KhachHang>> searchKhachHang(@RequestParam String hoVaTen, @RequestParam(required = false) Integer trangThai) {
-        List<KhachHang> khachHangList = khachHangService.findByHoVaTenAndTrangThai(hoVaTen, trangThai);
+    public ResponseEntity<List<KhachHang>> findKhachHangByHoVaTenOrSoDienThoai(@RequestParam String hoVaTen, @RequestParam String soDienThoai) {
+        List<KhachHang> khachHangList = khachHangService.findByHoVaTenOrSoDienThoai(hoVaTen, soDienThoai);
+        return ResponseEntity.ok(khachHangList);
+    }
+    // Tìm khách hàng theo ngày sinh trong khoảng
+    @GetMapping("/ngaysinh")
+    public ResponseEntity<List<KhachHang>> findKhachHangByNgaySinhBetween(@RequestParam Date startDate, @RequestParam Date endDate) {
+        List<KhachHang> khachHangList = khachHangService.findKhachHangByNgaySinhBetween(startDate, endDate);
+        return ResponseEntity.ok(khachHangList);
+    }
+    // Cập nhật mật khẩu cho khách hàng
+    @PutMapping("/update-password")
+    public ResponseEntity<Void> updatePassword(@RequestParam String taiKhoan, @RequestParam String newPassword) {
+        khachHangService.updatePassword(taiKhoan, newPassword);
+        return ResponseEntity.ok().build();
+    }
+    // Kiểm tra tồn tại số điện thoại
+    @GetMapping("/exists/soDienThoai")
+    public ResponseEntity<Boolean> existsBySoDienThoai(@RequestParam String soDienThoai) {
+        boolean exists = khachHangService.existsBySoDienThoai(soDienThoai);
+        return ResponseEntity.ok(exists);
+    }
+    // Kiểm tra tồn tại email
+    @GetMapping("/exists/email")
+    public ResponseEntity<Boolean> existsByEmail(@RequestParam String email) {
+        boolean exists = khachHangService.existsByEmail(email);
+        return ResponseEntity.ok(exists);
+    }
+    // Tìm khách hàng theo số điện thoại
+    @GetMapping("/search/soDienThoai")
+    public ResponseEntity<KhachHang> searchKhachHangBySoDienThoai(@RequestParam String soDienThoai) {
+        KhachHang khachHang = khachHangService.searchKhachHangBySoDienThoai(soDienThoai);
+        return khachHang != null ? ResponseEntity.ok(khachHang) : ResponseEntity.notFound().build();
+    }
+    // Tìm khách hàng theo ID
+    @GetMapping("/search/id")
+    public ResponseEntity<KhachHang> searchKhachHangById(@RequestParam Integer id) {
+        KhachHang khachHang = khachHangService.searchKhachHangById(id);
+        return khachHang != null ? ResponseEntity.ok(khachHang) : ResponseEntity.notFound().build();
+    }
+    // Lấy tất cả khách hàng sắp xếp theo ID giảm dần
+    @GetMapping("/order-by-id-desc")
+    public ResponseEntity<List<KhachHang>> findAllByOrderByIdDesc() {
+        List<KhachHang> khachHangList = khachHangService.findAllByOrderByIdDesc();
         return ResponseEntity.ok(khachHangList);
     }
 }
