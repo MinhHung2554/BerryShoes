@@ -66,6 +66,12 @@ public class KhachHang {
     @Length(max = 300, message = "Mật khẩu không được vượt quá 300 ký tự")
     private String matKhau;
 
+//    @Enumerated(EnumType.STRING)
+//    private Role vaiTro = Role.KHACHHANG; //Hưng thêm
+//    @Column(name = "VaiTro", length = 50)
+//    private String vaiTro;
+
+
     @CreationTimestamp
     @Column(name = "NgayTao", updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

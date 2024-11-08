@@ -72,4 +72,8 @@ public class PhieuGiamGia {
 
     @Column(name = "TrangThai", nullable = false)
     private Integer trangThai;
+
+    @ManyToOne
+    @JoinColumn(name = "Id")
+    HoaDon hoaDon;
 }

@@ -69,6 +69,6 @@ public class SanPhamChiTiet {
     @Column(name = "NguoiCapNhat", length = 100)
     private String nguoiCapNhat;
 
-    @Column(name = "TrangThai", columnDefinition = "bit default 1")
-    private Boolean trangThai = true;
+    @Column(name = "TrangThai", columnDefinition = "int default 1")
+    private Integer trangThai;
 }
