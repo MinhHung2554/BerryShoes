@@ -60,4 +60,5 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, Integer> {
     KhachHang searchKhachHangById(Integer id);
     // Lấy tất cả Khách Hàng, sắp xếp theo ID giảm dần
     List<KhachHang> findAllByOrderByIdDesc();
+
 }

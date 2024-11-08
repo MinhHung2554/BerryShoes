@@ -7,6 +7,7 @@ import com.example.berryshoes.service.KhachHangService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,5 +73,54 @@ public class KhachHangServiceImpl implements KhachHangService {
         } else {
             throw new RuntimeException("Khách hàng không tồn tại");
         }
+    }
+    @Override
+    public KhachHang findKhachHangByTaikhoan(String taiKhoan) {
+        return khachHangRepository.findKhachHangByTaikhoan(taiKhoan);
+    }
+
+    @Override
+    public List<KhachHang> findByHoVaTenOrSoDienThoai(String hoVaTen, String soDienThoai) {
+        return khachHangRepository.findByHoVaTenOrSoDienThoai(hoVaTen, soDienThoai);
+    }
+
+    @Override
+    public List<KhachHang> findKhachHangByNgaySinhBetween(Date startDate, Date endDate) {
+        return khachHangRepository.findKhachHangByNgaySinhBetween(startDate, endDate);
+    }
+
+    @Override
+    public KhachHang findKhachHangByEmail(String email) {
+        return khachHangRepository.findKhachHangByEmail(email);
+    }
+
+    @Override
+    public void updatePassword(String taiKhoan, String newPassword) {
+        khachHangRepository.updatePassword(taiKhoan, newPassword);
+    }
+
+    @Override
+    public boolean existsBySoDienThoai(String soDienThoai) {
+        return khachHangRepository.existsBySoDienThoai(soDienThoai);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return khachHangRepository.existsByEmail(email);
+    }
+
+    @Override
+    public KhachHang searchKhachHangBySoDienThoai(String soDienThoai) {
+        return khachHangRepository.searchKhachHangBySoDienThoai(soDienThoai);
+    }
+
+    @Override
+    public KhachHang searchKhachHangById(Integer id) {
+        return khachHangRepository.searchKhachHangById(id);
+    }
+
+    @Override
+    public List<KhachHang> findAllByOrderByIdDesc() {
+        return khachHangRepository.findAllByOrderByIdDesc();
     }
 }
