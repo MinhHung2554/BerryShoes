@@ -23,4 +23,31 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer> {
     SanPham findFirstByOrderByNgayTaoDesc();
 
     boolean existsByTenSanPham(String tensanpham);
+
+    // các sp mới nhất bên sp
+    @Query("""
+        SELECT sp.id, sp.tenSanPham, sp.ngayTao, 
+               SUM(ct.soLuong) AS tongSoLuong, sp.trangThai, sp.maSanPham
+        FROM SanPham sp
+        JOIN SanPhamChiTiet ct ON sp.id = ct.id
+        GROUP BY sp.id, sp.tenSanPham, sp.ngayTao, sp.trangThai, sp.maSanPham
+        ORDER BY sp.ngayTao DESC, tongSoLuong DESC
+       """)
+    List<Object[]> findProductsWithTotalQuantityOrderByDateDesc();
+    // search bên sp
+//    @Query("""
+//        SELECT sp.id, sp.tenSanPham, sp.ngayTao, SUM(SanPhamChiTiet.soLuong) AS tongSoLuong,
+//               sp.trangThai, sp.maSanPham
+//        FROM SanPham sp
+//        JOIN sp spct
+//        WHERE (sp.maSanPham LIKE %:masanpham% OR sp.tenSanPham LIKE %:key%)
+//          AND (:trangthai IS NULL OR sp.trangThai = :trangthai)
+//        GROUP BY sp.id, sp.tenSanPham, sp.ngayTao, sp.trangThai, sp.maSanPham
+//        ORDER BY sp.ngayTao DESC, SUM(SanPhamChiTiet.soLuong) DESC
+//       """)
+//    List<Object[]> findByMasanphamAndTenSanPhamAndTrangThai(
+//            @Param("masanpham") String masanpham,
+//            @Param("key") String key,
+//            @Param("trangthai") Integer trangthai
+//    );
 }
