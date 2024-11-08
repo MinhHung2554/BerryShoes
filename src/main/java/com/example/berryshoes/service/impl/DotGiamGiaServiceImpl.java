@@ -6,10 +6,12 @@ import com.example.berryshoes.entity.DotGiamGia;
 import com.example.berryshoes.repository.DotGiamGiaRepository;
 import com.example.berryshoes.service.DotGiamGiaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
@@ -76,5 +78,20 @@ public class DotGiamGiaServiceImpl implements DotGiamGiaService {
                 .nguoiCapNhat(dotGiamGia.getNguoiCapNhat())
                 .trangThai(dotGiamGia.getTrangThai())
                 .build();
+    }
+
+    @Override
+    public Page<DotGiamGia> findAllOrderByNgayTaoDESC(String keySearch, Timestamp tungaySearch, Timestamp denngaySearch, Integer ttSearch, Pageable pageable) {
+        return dotGiamGiaRepository.findAllOrderByNgayTaoDESC(keySearch, tungaySearch, denngaySearch, ttSearch, pageable);
+    }
+
+    @Override
+    public DotGiamGia findDotGiamGiaById(Integer id) {
+        return dotGiamGiaRepository.findDotGiamGiaById(id);
+    }
+
+    @Override
+    public DotGiamGia findFirstByOrderByNgayTaoDesc() {
+        return dotGiamGiaRepository.findFirstByOrderByNgayTaoDesc();
     }
 }
