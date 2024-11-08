@@ -12,6 +12,8 @@ import java.sql.Timestamp;
 
 @Repository
 public interface DotGiamGiaRepository extends JpaRepository<DotGiamGia, Integer> {
+//    @Query("SELECT s FROM DotGiamGia s WHERE s.id =:IdDot")
+
     @Query("SELECT d FROM DotGiamGia d WHERE " +
             "(:keySearch IS NULL OR d.nguoiTao LIKE %:keySearch%) " +
             "AND (:tungaySearch IS NULL OR d.ngayBatDau >= :tungaySearch) " +

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/nhanvien")
+@RequestMapping("/api/nhan-vien")
 @RequiredArgsConstructor
 public class NhanVienController {
 
