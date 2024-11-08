@@ -13,8 +13,8 @@ import java.util.List;
 
 @Repository
 public interface GioHangRepository extends JpaRepository<GioHang, Integer> {
-    @Query("SELECT gh FROM GioHang gh WHERE gh.khachHang = :khachhang AND gh.trangThai =?1")
-    GioHang findCurrentGioHang(@Param("khachhang") KhachHang khachhang);
+    @Query("SELECT gh FROM GioHang gh WHERE gh.khachHang = :khachhang AND gh.trangThai = :trangThai")
+    GioHang findCurrentGioHang(@Param("khachhang") KhachHang khachhang, @Param("trangThai") Integer trangThai);
     GioHang findByKhachHang(KhachHang khachHang);
 
     @Query(value = """
