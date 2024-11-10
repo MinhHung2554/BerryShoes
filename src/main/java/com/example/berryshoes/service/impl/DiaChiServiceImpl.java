@@ -4,8 +4,10 @@ import com.example.berryshoes.dto.request.DiaChiRequest;
 import com.example.berryshoes.entity.DiaChi;
 import com.example.berryshoes.repository.DiaChiRepository;
 import com.example.berryshoes.service.DiaChiService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Date;
 
 import java.util.List;
 import java.util.Optional;
@@ -67,5 +69,50 @@ public class DiaChiServiceImpl implements DiaChiService {
         } else {
             throw new RuntimeException("Địa chỉ không tồn tại");
         }
+    }
+    @Override
+    public DiaChi findByTenNguoiNhanAndSdtNguoiNhanAndTenDuongAndTinhThanhPhoAndQuanHuyenAndXaPhuong(
+            String ten, String sdt, String tenduong, String tinhthanh, String quanhuyen, String xaphuong) {
+        return diaChiRepository.findByTenNguoiNhanAndSdtNguoiNhanAndTenDuongAndTinhThanhPhoAndQuanHuyenAndXaPhuong(ten, sdt, tenduong, tinhthanh, quanhuyen, xaphuong);
+    }
+
+    @Override
+    public List<DiaChi> findByTrangThai(Integer trangThai) {
+        return diaChiRepository.findByTrangThai(trangThai);
+    }
+
+    @Override
+    public DiaChi findByIdKhachHangMacDinh(Integer idKhachHang) {
+        return diaChiRepository.findByIdKhachHangMacDinh(idKhachHang);
+    }
+
+    @Override
+    public List<DiaChi> findByHoTenHoacSdt(String ht, String sdt) {
+        return diaChiRepository.findByHoTenHoacSdt(ht, sdt);
+    }
+
+    @Override
+    public List<DiaChi> findByKey(String name, Date startDate, Date endDate, Integer status) {
+        return diaChiRepository.findByKey(name, startDate, endDate, status);
+    }
+
+    @Override
+    public List<DiaChi> findByTinhThanhPho(String tinhThanhPho) {
+        return diaChiRepository.findByTinhThanhPho(tinhThanhPho);
+    }
+
+    @Override
+    public List<DiaChi> findByIdKhachHang(Integer idKhachHang) {
+        return diaChiRepository.findByIdKhachHang(idKhachHang);
+    }
+
+    @Override
+    public List<DiaChi> findByIdKhachHangAndTrangThai(Integer idKhachHang, Integer trangThai) {
+        return diaChiRepository.findByIdKhachHangAndTrangThai(idKhachHang, trangThai);
+    }
+
+    @Override
+    public DiaChi findByIdDiaChi(Integer idDiaChi) {
+        return diaChiRepository.findByIdDiaChi(idDiaChi);
     }
 }
