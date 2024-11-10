@@ -20,6 +20,21 @@ public class DeGiayController {
     @Autowired
     private DeGiayService deGiayService;
 
+    // Kiểm tra tính hợp lệ của tên đế giày
+    public void validateDeGiay(DeGiayRequest requestDTO) {
+        if (requestDTO.getTenDeGiay() == null || requestDTO.getTenDeGiay().trim().isEmpty()) {
+            throw new IllegalArgumentException("Tên đế giày không được trống");
+        }
+
+        if (requestDTO.getTenDeGiay().length() > 255) {
+            throw new IllegalArgumentException("Tên đế giày quá dài");
+        }
+
+        // Kiểm tra trùng lặp (nếu cần)
+        if (deGiayService.existsByTenDeGiay(requestDTO.getTenDeGiay())) {
+            throw new IllegalArgumentException("Tên đế giày đã tồn tại");
+        }
+    }
     // Lấy tất cả đế giày
     @GetMapping
     public ResponseEntity<List<DeGiayResponse>> getAllDeGiay() {
@@ -59,6 +74,8 @@ public class DeGiayController {
     @PostMapping
     public ResponseEntity<DeGiayResponse> createDeGiay(@RequestBody DeGiayRequest requestDTO) {
         DeGiay createdDeGiay = deGiayService.createDeGiay(requestDTO);
+        // Validate dữ liệu trước khi tạo mới
+        validateDeGiay(requestDTO);
         DeGiayResponse response = new DeGiayResponse();
         response.setId(createdDeGiay.getId());
         response.setTenDeGiay(createdDeGiay.getTenDeGiay());
