@@ -1,13 +1,19 @@
 package com.example.berryshoes.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+<<<<<<< HEAD
 import lombok.Builder;
+=======
+>>>>>>> origin/main
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
+<<<<<<< HEAD
 @Builder
+=======
+>>>>>>> origin/main
 public class AnhResponse {
     private Integer id;
     private String tenAnh;

@@ -1,14 +1,21 @@
 package com.example.berryshoes.service.impl;
 
+<<<<<<< HEAD
 import com.example.berryshoes.dto.response.AnhResponse;
 import com.example.berryshoes.entity.Anh;
 import com.example.berryshoes.repository.AnhRepository;
 import com.example.berryshoes.service.AnhService;
 import lombok.RequiredArgsConstructor;
+=======
+import com.example.berryshoes.entity.Anh;
+import com.example.berryshoes.repository.AnhRepository;
+import com.example.berryshoes.service.AnhService;
+>>>>>>> origin/main
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,10 +25,18 @@ public class AnhServiceImp implements AnhService {
 
     private final AnhRepository anhRepository;
 
+=======
+
+@Service
+public class AnhServiceImp implements AnhService {
+    @Autowired
+    AnhRepository anhRepository;
+>>>>>>> origin/main
     @Override
     public List<Anh> getAll() {
         return anhRepository.findAll();
     }
+<<<<<<< HEAD
 // Chuyển đổi từ entity Anh sang DTO AnhResponse
 
 
@@ -59,4 +74,6 @@ public class AnhServiceImp implements AnhService {
     public List<Anh> filterAnhByTrangThai(Boolean trangThai) {
         return anhRepository.findByTrangThai(trangThai);
     }
+=======
+>>>>>>> origin/main
 }

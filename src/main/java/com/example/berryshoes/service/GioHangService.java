@@ -1,16 +1,17 @@
 package com.example.berryshoes.service;
 
 import com.example.berryshoes.entity.GioHang;
+import com.example.berryshoes.entity.KhachHang;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface GioHangService {
-    List<GioHang> getAllGioHang();
-    Optional<GioHang> getGioHangById(Integer id);
-    GioHang createGioHang(GioHang gioHang);
-    Optional<GioHang> updateGioHang(Integer id, GioHang gioHang);
+    GioHang findCurrentGioHang(KhachHang khachhang, Integer trangThai);
+    GioHang findByKhachHang(KhachHang khachHang);
+    GioHang findByIdKhachHang(Integer id);
+    GioHang findByGiohangIdAndSanPhamChiTietId(Integer gioHangId, Integer spctId);
+    void updateSoLuongById(Integer soLuong, Integer id);
+    List<GioHang> findGioHangByGiohang(Integer id);
     void deleteGioHang(Integer id);
-    List<GioHang> findByKhachHangId(Integer khachHangId);
-    List<GioHang> filterGioHangByTrangThai(Boolean trangThai);
+    KhachHang findByKhachHangId(Integer id);
 }

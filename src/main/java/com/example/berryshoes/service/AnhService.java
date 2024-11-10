@@ -1,5 +1,6 @@
 package com.example.berryshoes.service;
 
+<<<<<<< HEAD
 import com.example.berryshoes.dto.response.AnhResponse;
 import com.example.berryshoes.entity.Anh;
 
@@ -14,4 +15,12 @@ public interface AnhService {
     void deleteAnh(Integer id);
     List<Anh> searchAnhByTenAnh(String tenAnh);
     List<Anh> filterAnhByTrangThai(Boolean trangThai);
+=======
+import com.example.berryshoes.entity.Anh;
+
+import java.util.List;
+
+public interface AnhService {
+    List<Anh> getAll();
+>>>>>>> origin/main
 }

@@ -1,10 +1,13 @@
 package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.PhieuGiamGiaRequest;
+import com.example.berryshoes.entity.HoaDon;
 import com.example.berryshoes.entity.PhieuGiamGia;
 import com.example.berryshoes.repository.PhieuGiamGiaRepository;
 import com.example.berryshoes.service.PhieuGiamGiaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -75,5 +78,30 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
         } else {
             throw new RuntimeException("Phiếu giảm giá không tồn tại");
         }
+    }
+    @Override
+    public List<PhieuGiamGia> findAllByHoaDon(HoaDon hoaDon) {
+        return phieuGiamGiaRepository.findAllByHoaDon(hoaDon);
+    }
+
+    @Override
+    public PhieuGiamGia findPhieuGiamGiaByMaCode(String maCode) {
+        return phieuGiamGiaRepository.findPhieuGiamGiaByMaCode(maCode);
+    }
+
+    @Override
+    public List<PhieuGiamGia> findAllByKieuPhieuAndTrangThai(Boolean kieuPhieu, Integer trangThai) {
+        return phieuGiamGiaRepository.findAllByKieuphieuaAndTrangthais(kieuPhieu, trangThai);
+    }
+
+    @Override
+    public PhieuGiamGia findFirstByOrderByNgayTaoDesc() {
+        return phieuGiamGiaRepository.findFirstByOrderByNgayTaoDesc();
+    }
+    @Override
+    public Page<PhieuGiamGia> findAllOrderByNgayTaoDESC(String keySearch, Timestamp tungaySearch, Timestamp denngaySearch,
+                                                        Boolean kieuSearch, Boolean loaiSearch, Integer ttSearch, Pageable pageable) {
+        return phieuGiamGiaRepository.findAllOrderByNgayTaoDESC(keySearch, tungaySearch, denngaySearch,
+                kieuSearch, loaiSearch, ttSearch, pageable);
     }
 }

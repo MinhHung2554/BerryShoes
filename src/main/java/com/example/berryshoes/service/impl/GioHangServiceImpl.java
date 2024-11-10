@@ -1,13 +1,13 @@
 package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.entity.GioHang;
+import com.example.berryshoes.entity.KhachHang;
 import com.example.berryshoes.repository.GioHangRepository;
 import com.example.berryshoes.service.GioHangService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,43 +16,42 @@ public class GioHangServiceImpl implements GioHangService {
     private final GioHangRepository gioHangRepository;
 
     @Override
-    public List<GioHang> getAllGioHang() {
-        return gioHangRepository.findAll();
+    public GioHang findCurrentGioHang(KhachHang khachhang, Integer trangThai) {
+        return gioHangRepository.findCurrentGioHang(khachhang, trangThai);
     }
 
     @Override
-    public Optional<GioHang> getGioHangById(Integer id) {
-        return gioHangRepository.findById(id);
+    public GioHang findByKhachHang(KhachHang khachHang) {
+        return gioHangRepository.findByKhachHang(khachHang);
     }
 
     @Override
-    public GioHang createGioHang(GioHang gioHang) {
-        return gioHangRepository.save(gioHang);
+    public GioHang findByIdKhachHang(Integer id) {
+        return gioHangRepository.findByIdKhachHang(id);
     }
 
     @Override
-    public Optional<GioHang> updateGioHang(Integer id, GioHang updatedGioHang) {
-        return gioHangRepository.findById(id).map(existingGioHang -> {
-            existingGioHang.setKhachHang(updatedGioHang.getKhachHang());
-            existingGioHang.setSanPhamChiTiet(updatedGioHang.getSanPhamChiTiet());
-            existingGioHang.setSoLuong(updatedGioHang.getSoLuong());
-            existingGioHang.setTrangThai(updatedGioHang.getTrangThai());
-            return gioHangRepository.save(existingGioHang);
-        });
+    public GioHang findByGiohangIdAndSanPhamChiTietId(Integer gioHangId, Integer spctId) {
+        return gioHangRepository.findByGiohangIdAndSanPhamChiTietId(gioHangId, spctId);
+    }
+
+    @Override
+    public void updateSoLuongById(Integer soLuong, Integer id) {
+        gioHangRepository.updateSoLuongById(soLuong, id);
+    }
+
+    @Override
+    public List<GioHang> findGioHangByGiohang(Integer id) {
+        return gioHangRepository.findGioHangByGiohang(id);
     }
 
     @Override
     public void deleteGioHang(Integer id) {
-        gioHangRepository.deleteById(id);
+        gioHangRepository.deleteGioHang(id);
     }
 
     @Override
-    public List<GioHang> findByKhachHangId(Integer khachHangId) {
-        return gioHangRepository.findByKhachHang_Id(khachHangId);
-    }
-
-    @Override
-    public List<GioHang> filterGioHangByTrangThai(Boolean trangThai) {
-        return gioHangRepository.findByTrangThai(trangThai);
+    public KhachHang findByKhachHangId(Integer id) {
+        return gioHangRepository.findByKhachHang(id);
     }
 }

@@ -99,16 +99,4 @@ public class MauSacController {
         response.setTrangThai(mauSac.getTrangThai());
         return response;
     }
-
-    //    //Thay doi trang thai
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> changeMauSac(@PathVariable Integer id) {
-//        mauSacService.deleteByTrangThai(id);
-//        return ResponseEntity.noContent().build();
-//    }
-    @GetMapping("/search")
-    public ResponseEntity<List<MauSac>> searchMauSac(@RequestParam String ten, @RequestParam(required = false) Integer trangThai) {
-        List<MauSac> mauSacList = mauSacService.findByTenAndTrangThai(ten, trangThai);
-        return ResponseEntity.ok(mauSacList);
-    }
 }
