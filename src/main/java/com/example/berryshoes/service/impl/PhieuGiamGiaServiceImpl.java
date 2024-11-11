@@ -81,7 +81,7 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
     }
     @Override
     public List<PhieuGiamGia> findAllByHoaDon(HoaDon hoaDon) {
-        return phieuGiamGiaRepository.findAllByHoaDon(hoaDon);
+        return null;
     }
 
     @Override

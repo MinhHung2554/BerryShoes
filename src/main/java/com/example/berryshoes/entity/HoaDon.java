@@ -24,7 +24,7 @@ public class HoaDon {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "IdNhanVien", nullable = false)
+    @JoinColumn(name = "IdNhanVien")
     private NhanVien nhanVien;
 
     @ManyToOne
@@ -99,4 +99,5 @@ public class HoaDon {
 
     @Column(name = "TrangThai")
     private Integer trangThai;
+
 }
