@@ -38,7 +38,13 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, Integer> {
     KhachHang findKhachHangByEmail(@Param("email") String email);
 
     // Tìm Khách Hàng theo email (không dùng query)
+    @Query("select k from KhachHang k where k.email = ?1")
     KhachHang findByEmail(String email);
+
+    @Query("select k from KhachHang  k where k.email = ?1")
+    Optional<KhachHang> findKhByEmail(String email);
+    @Query("select k from KhachHang  k where k.taiKhoan = ?1")
+    Optional<KhachHang> findKhByTaiKhoan(String taiKhoan);
 
     // Cập nhật mật khẩu cho Khách Hàng
     @Transactional
