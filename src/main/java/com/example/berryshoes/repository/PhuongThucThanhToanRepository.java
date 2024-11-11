@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PhuongThucThanhToanRepository extends JpaRepository<PhuongThucThanhToan, Integer> {
@@ -14,4 +15,7 @@ public interface PhuongThucThanhToanRepository extends JpaRepository<PhuongThucT
     PhuongThucThanhToan findByIdHoaDon(Integer idHoaDon);
 
     List<PhuongThucThanhToan> findAllByHoaDon(HoaDon hd);
+
+    @Query("select count(p.id) from PhuongThucThanhToan p where p.maGiaoDichVnPay = ?1")
+    Long findBymaGiaoDichVnPay(String maGiaoDichVnPay);
 }
