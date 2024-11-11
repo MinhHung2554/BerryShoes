@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
@@ -19,6 +20,9 @@ public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
     // Tìm nhân viên theo email
     @Query("SELECT n FROM NhanVien n WHERE n.email = :email")
     NhanVien findNhanVienByEmail(@Param("email") String email);
+
+    @Query("SELECT n FROM NhanVien n WHERE n.email = ?1")
+    Optional<NhanVien> findByEmail(String email);
 
     // Tìm nhân viên theo mã nhân viên
     @Query("SELECT n FROM NhanVien n WHERE n.maNhanVien LIKE %:maNhanVien%")
