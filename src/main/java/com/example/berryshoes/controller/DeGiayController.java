@@ -89,7 +89,13 @@ public class DeGiayController {
     // Cập nhật đế giày
     @PutMapping("/{id}")
     public ResponseEntity<DeGiayResponse> updateDeGiay(@PathVariable Integer id, @RequestBody DeGiayRequest requestDTO) {
-        validateDeGiay(requestDTO);
+        if (requestDTO.getTenDeGiay() == null || requestDTO.getTenDeGiay().trim().isEmpty()) {
+            throw new IllegalArgumentException("Tên đế giày không được trống");
+        }
+
+        if (requestDTO.getTenDeGiay().length() > 255) {
+            throw new IllegalArgumentException("Tên đế giày quá dài");
+        }
         DeGiay updatedDeGiay = deGiayService.updateDeGiay(id, requestDTO);
         return updatedDeGiay != null ? ResponseEntity.ok(convertToResponse(updatedDeGiay)) : ResponseEntity.notFound().build();
     }

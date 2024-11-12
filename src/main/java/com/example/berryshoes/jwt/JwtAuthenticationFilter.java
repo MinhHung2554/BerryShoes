@@ -5,6 +5,7 @@ import com.example.berryshoes.entity.KhachHang;
 import com.example.berryshoes.entity.NhanVien;
 import com.example.berryshoes.entity.Role;
 import com.example.berryshoes.entity.User;
+import com.example.berryshoes.exception.MessageException;
 import com.example.berryshoes.repository.KhachHangRepository;
 import com.example.berryshoes.repository.NhanVienRepository;
 import com.example.berryshoes.repository.UserRepository;
@@ -86,8 +87,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+//            ex.printStackTrace();
+            printErrorDetails(ex);
         }
         filterChain.doFilter(request, response);
     }
+    private void printErrorDetails(Exception ex) {
+    //        System.out.println("Error Message: " + ex.getMessage());
+    //        System.out.println("Error Class: " + ex.getClass().getName());
+        for (StackTraceElement element : ex.getStackTrace()) {
+            System.out.println("at " + element);
+        }
+    }
+
+
 }

@@ -1,8 +1,10 @@
 package com.example.berryshoes.controller;
 
 import com.example.berryshoes.dto.request.LoginDto;
+import com.example.berryshoes.dto.response.MessageResponse;
 import com.example.berryshoes.dto.response.TokenDto;
 import com.example.berryshoes.entity.KhachHang;
+import com.example.berryshoes.dto.request.KhachHangRequest;
 import com.example.berryshoes.entity.NhanVien;
 import com.example.berryshoes.entity.User;
 import com.example.berryshoes.exception.MessageException;
@@ -69,6 +71,27 @@ public class AuthController {
             }
         }
         throw new MessageException("Đăng nhập thất bại");
+    }
+    @PostMapping("/public/register")
+    public MessageResponse registerCustomer(@RequestBody KhachHangRequest request) {
+        // Kiểm tra email đã tồn tại
+        if (khachHangRepository.existsByEmail(request.getEmail())) {
+            throw new MessageException("Email đã được sử dụng.");
+        }
+
+        // Tạo mới Khách hàng
+        KhachHang khachHang = new KhachHang();
+        khachHang.setHoVaTen(request.getHoVaTen());
+        khachHang.setNgaySinh(request.getNgaySinh());
+        khachHang.setGioiTinh(request.getGioiTinh());
+        khachHang.setSoDienThoai(request.getSoDienThoai());
+        khachHang.setEmail(request.getEmail());
+        khachHang.setMatKhau(passwordEncoder.encode(request.getMatKhau()));
+
+        // Lưu khách hàng vào cơ sở dữ liệu
+        khachHangRepository.save(khachHang);
+
+        return new MessageResponse("Đăng ký thành công!");
     }
 
     @PostMapping("/admin/check-admin")
