@@ -73,6 +73,7 @@ public class DeGiayController {
     // Tạo mới đế giày
     @PostMapping
     public ResponseEntity<DeGiayResponse> createDeGiay(@RequestBody DeGiayRequest requestDTO) {
+        validateDeGiay(requestDTO);
         DeGiay createdDeGiay = deGiayService.createDeGiay(requestDTO);
         // Validate dữ liệu trước khi tạo mới
         validateDeGiay(requestDTO);
@@ -90,6 +91,7 @@ public class DeGiayController {
     // Cập nhật đế giày
     @PutMapping("/{id}")
     public ResponseEntity<DeGiayResponse> updateDeGiay(@PathVariable Integer id, @RequestBody DeGiayRequest requestDTO) {
+        validateDeGiay(requestDTO);
         DeGiay updatedDeGiay = deGiayService.updateDeGiay(id, requestDTO);
         return updatedDeGiay != null ? ResponseEntity.ok(convertToResponse(updatedDeGiay)) : ResponseEntity.notFound().build();
     }
