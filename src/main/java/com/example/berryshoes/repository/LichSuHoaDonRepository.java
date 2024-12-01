@@ -10,8 +10,9 @@ import java.util.List;
 
 @Repository
 public interface LichSuHoaDonRepository extends JpaRepository<LichSuHoaDon, Integer> {
+
     List<LichSuHoaDon> findAllByHoaDonOrderByNgayTao(HoaDon hd);
 
     @Query("SELECT h FROM LichSuHoaDon h WHERE h.hoaDon.id =?1")
-    LichSuHoaDon findLichSuHoaDonByIdHoaDon(Integer idHoaDon);
+    List<LichSuHoaDon> findLichSuHoaDonByIdHoaDon(Integer idHoaDon);
 }
