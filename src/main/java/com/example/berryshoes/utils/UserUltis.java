@@ -5,7 +5,6 @@ import com.example.berryshoes.entity.NhanVien;
 import com.example.berryshoes.jwt.JwtUtils;
 import com.example.berryshoes.repository.KhachHangRepository;
 import com.example.berryshoes.repository.NhanVienRepository;
-import io.jsonwebtoken.Jwt;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

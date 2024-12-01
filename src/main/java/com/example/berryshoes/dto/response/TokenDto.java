@@ -1,6 +1,5 @@
 package com.example.berryshoes.dto.response;
 
-import com.example.berryshoes.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
