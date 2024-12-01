@@ -1,5 +1,6 @@
 package com.example.berryshoes.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class Anh {
 
     @ManyToOne
     @JoinColumn(name = "IdSanPhamChiTiet", nullable = false)
+    @JsonBackReference
     private SanPhamChiTiet sanPhamChiTiet;
 
     @Column(name = "TenAnh")
