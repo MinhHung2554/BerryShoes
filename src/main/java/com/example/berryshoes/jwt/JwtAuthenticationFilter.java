@@ -80,6 +80,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         role = "ROLE_EMPLOYEE";
                     }
                 }
+                System.out.println("role: "+role);
                 List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(email, null, authorities);
@@ -93,8 +94,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
     private void printErrorDetails(Exception ex) {
-    //        System.out.println("Error Message: " + ex.getMessage());
-    //        System.out.println("Error Class: " + ex.getClass().getName());
+        //        System.out.println("Error Message: " + ex.getMessage());
+        //        System.out.println("Error Class: " + ex.getClass().getName());
         for (StackTraceElement element : ex.getStackTrace()) {
             System.out.println("at " + element);
         }

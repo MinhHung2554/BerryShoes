@@ -1,4 +1,4 @@
-//// security/JwtTokenProvider.java
+package com.example.berryshoes.security;//// security/JwtTokenProvider.java
 //package com.example.berryshoes.security;
 //
 //import io.jsonwebtoken.*;
