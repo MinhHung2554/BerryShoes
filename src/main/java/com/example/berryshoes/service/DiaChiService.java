@@ -2,6 +2,7 @@ package com.example.berryshoes.service;
 
 import com.example.berryshoes.dto.request.DiaChiRequest;
 import com.example.berryshoes.entity.DiaChi;
+import com.example.berryshoes.entity.KhachHang;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,7 @@ public interface DiaChiService {
 
     Optional<DiaChi> getDiaChiById(Integer id);
 
-    DiaChi createDiaChi(DiaChiRequest requestDTO);
+    DiaChi createDiaChi(DiaChiRequest requestDTO, KhachHang khachHang);
 
     DiaChi updateDiaChi(Integer id, DiaChiRequest requestDTO);
 

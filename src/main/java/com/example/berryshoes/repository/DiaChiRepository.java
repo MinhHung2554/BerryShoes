@@ -38,7 +38,7 @@ public interface DiaChiRepository extends JpaRepository<DiaChi, Integer> {
     @Query("SELECT d FROM DiaChi d WHERE d.tinhThanhPho LIKE %?1%")
     List<DiaChi> findByTinhThanhPho(@Param("tinhThanhPho") String tinhThanhPho);
 
-    @Query("SELECT d FROM DiaChi d WHERE d.khachHang.id = ?1 ORDER BY d.trangThai DESC, d.ngayTao DESC")
+    @Query("SELECT d FROM DiaChi d WHERE d.khachHang.id = ?1")
     List<DiaChi> findByIdKhachHang(Integer idKhachHang);
 
     @Query("SELECT d FROM DiaChi d WHERE d.khachHang.id = ?1 AND d.trangThai = ?2")
