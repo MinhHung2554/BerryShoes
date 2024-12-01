@@ -1,12 +1,18 @@
 package com.example.berryshoes.controller;
 
 import com.example.berryshoes.dto.request.PhieuGiamGiaRequest;
+import com.example.berryshoes.entity.DeGiay;
+import com.example.berryshoes.entity.GioHang;
 import com.example.berryshoes.entity.HoaDon;
 import com.example.berryshoes.entity.PhieuGiamGia;
+import com.example.berryshoes.exception.MessageException;
+import com.example.berryshoes.repository.GioHangRepository;
+import com.example.berryshoes.repository.PhieuGiamGiaRepository;
 import com.example.berryshoes.service.PhieuGiamGiaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +25,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PhieuGiamGiaController {
     private final PhieuGiamGiaService phieuGiamGiaService;
+    private final PhieuGiamGiaRepository phieuGiamGiaRepository;
+    private final GioHangRepository gioHangRepository;
     @GetMapping
     public ResponseEntity<List<PhieuGiamGia>> getAllPhieuGiamGia() {
         List<PhieuGiamGia> phieuGiamGiaList = phieuGiamGiaService.getAllPhieuGiamGia();
+        return ResponseEntity.ok(phieuGiamGiaList);
+    }
+
+    @GetMapping("/kha-dung")
+    public ResponseEntity<List<PhieuGiamGia>> khaDung() {
+        List<PhieuGiamGia> phieuGiamGiaList = phieuGiamGiaRepository.khaDung();
         return ResponseEntity.ok(phieuGiamGiaList);
     }
 
@@ -30,6 +44,17 @@ public class PhieuGiamGiaController {
     public ResponseEntity<PhieuGiamGia> getPhieuGiamGiaById(@PathVariable Integer id) {
         Optional<PhieuGiamGia> phieuGiamGia = phieuGiamGiaService.getPhieuGiamGiaById(id);
         return phieuGiamGia.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll(Pageable pageable, @RequestParam(required = false) Integer trangthai){
+        Page<PhieuGiamGia> page = null;
+        if(trangthai == null){
+            page = phieuGiamGiaRepository.findAll(pageable);
+        }
+        else{
+            page = phieuGiamGiaRepository.findByTrangThai(trangthai, pageable);
+        }
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     // Tạo mới phiếu giảm giá
@@ -40,7 +65,7 @@ public class PhieuGiamGiaController {
     }
 
     // Cập nhật phiếu giảm giá
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<PhieuGiamGia> updatePhieuGiamGia(@PathVariable Integer id, @RequestBody PhieuGiamGiaRequest requestDTO) {
         PhieuGiamGia updatedPhieuGiamGia = phieuGiamGiaService.update(id, requestDTO);
         return updatedPhieuGiamGia != null ? ResponseEntity.ok(updatedPhieuGiamGia) : ResponseEntity.notFound().build();
@@ -96,4 +121,21 @@ public class PhieuGiamGiaController {
         List<PhieuGiamGia> phieuGiamGiaList = phieuGiamGiaService.findAllByKieuPhieuAndTrangThai(kieuPhieu, trangThai);
         return ResponseEntity.ok(phieuGiamGiaList);
     }
+
+    // Lấy phiếu giảm giá theo kiểu phiếu và trạng thái
+    @PostMapping("/kiem-tra-phieu")
+    public ResponseEntity<String> kiemTraPhieu(@RequestParam Integer id, @RequestBody List<Integer> idGioHang) {
+        List<GioHang> list = gioHangRepository.findAllById(idGioHang);
+        Double tong = 0D;
+        for(GioHang g : list){
+            tong += g.getSoLuong() * g.getSanPhamChiTiet().getGiaTien();
+        }
+        PhieuGiamGia phieuGiamGia = phieuGiamGiaRepository.findById(id).get();
+        if(phieuGiamGia.getDonToiThieu() > tong){
+            throw new MessageException("Bạn cần mua thêm "+(phieuGiamGia.getDonToiThieu() - tong)+" để được áp dụng voucher này");
+        }
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+
 }
