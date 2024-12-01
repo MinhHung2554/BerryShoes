@@ -56,7 +56,7 @@ public class NhanVien {
     @Column(name = "MatKhau", length = 300)
     private String matKhau;
 
-//    @Enumerated(EnumType.STRING)
+    //    @Enumerated(EnumType.STRING)
 //    @Column(name = "VaiTro", columnDefinition = "int default 0")
 //    private Role vaiTro;
     @Column(name = "VaiTro", columnDefinition = "int default 0")

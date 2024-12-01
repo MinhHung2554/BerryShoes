@@ -1,9 +1,14 @@
 package com.example.berryshoes.controller;
 
+import com.example.berryshoes.dto.response.NhanVienResponse;
 import com.example.berryshoes.service.NhanVienService;
 import com.example.berryshoes.dto.request.NhanVienRequest;
 import com.example.berryshoes.entity.NhanVien;
+import com.example.berryshoes.utils.UserUltis;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +21,9 @@ import java.util.Optional;
 public class NhanVienController {
 
     private final NhanVienService nhanVienService;
+
+    @Autowired
+    private UserUltis userUltis;
 
     // Lấy tất cả nhân viên
     @GetMapping
@@ -39,7 +47,7 @@ public class NhanVienController {
     }
 
     // Cập nhật nhân viên
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<NhanVien> updateNhanVien(@PathVariable Integer id, @RequestBody NhanVienRequest requestDTO) {
         NhanVien updatedNhanVien = nhanVienService.updateNhanVien(id, requestDTO);
         return updatedNhanVien != null ? ResponseEntity.ok(updatedNhanVien) : ResponseEntity.notFound().build();
@@ -50,5 +58,17 @@ public class NhanVienController {
     public ResponseEntity<Void> deleteNhanVien(@PathVariable Integer id) {
         nhanVienService.deleteNhanVien(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/dang-dang-nhap")
+    public ResponseEntity<?> nhanVienDangDangNhap(HttpServletRequest request) {
+        NhanVien nhanVien = userUltis.getLoggedInNhanVien(request);
+        NhanVienResponse nhanVienResponse = new NhanVienResponse();
+        nhanVienResponse.setMaNhanVien(nhanVien.getMaNhanVien());
+        nhanVienResponse.setEmail(nhanVien.getEmail());
+        nhanVienResponse.setAnh(nhanVien.getAnh());
+        nhanVienResponse.setHoVaTen(nhanVienResponse.getHoVaTen());
+        nhanVienResponse.setId(nhanVien.getId());
+        return new ResponseEntity<>(nhanVienResponse, HttpStatus.OK);
     }
 }
