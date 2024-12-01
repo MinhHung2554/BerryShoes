@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GioHangRepository extends JpaRepository<GioHang, Integer> {
@@ -39,4 +40,13 @@ public interface GioHangRepository extends JpaRepository<GioHang, Integer> {
             SELECT k FROM KhachHang k where k.id= :id
             """)
     KhachHang findByKhachHang(Integer id);
+
+    @Query("select g from GioHang g where g.khachHang.id = ?1 and g.sanPhamChiTiet.id = ?2")
+    GioHang findByKhachHangAndSanPhamChiTiet(Integer khachHangId, Integer spct);
+
+    @Query("select count(g.id) from GioHang g where g.khachHang.id = ?1")
+    Long demGioHang(Integer id);
+
+    @Query("select g from GioHang g where g.khachHang.id = ?1")
+    List<GioHang> findByKhachHangId(Integer idKhachHang);
 }
