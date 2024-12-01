@@ -18,4 +18,7 @@ public interface PhuongThucThanhToanRepository extends JpaRepository<PhuongThucT
 
     @Query("select count(p.id) from PhuongThucThanhToan p where p.maGiaoDichVnPay = ?1")
     Long findBymaGiaoDichVnPay(String maGiaoDichVnPay);
+
+    @Query("select p from PhuongThucThanhToan p where p.maGiaoDichVnPay = ?1")
+    Optional<PhuongThucThanhToan> findByMaGG(String maGiaoDichVnPay);
 }
