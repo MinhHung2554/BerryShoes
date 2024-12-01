@@ -3,20 +3,33 @@ package com.example.berryshoes.service.impl;
 import com.example.berryshoes.dto.request.DotGiamGiaRequest;
 import com.example.berryshoes.dto.response.DotGiamGiaResponse;
 import com.example.berryshoes.entity.DotGiamGia;
+import com.example.berryshoes.entity.SanPham;
+import com.example.berryshoes.entity.SanPhamChiTiet;
+import com.example.berryshoes.exception.MessageException;
 import com.example.berryshoes.repository.DotGiamGiaRepository;
+import com.example.berryshoes.repository.SanPhamChiTietRepository;
+import com.example.berryshoes.repository.SanPhamRepository;
 import com.example.berryshoes.service.DotGiamGiaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
 public class DotGiamGiaServiceImpl implements DotGiamGiaService {
     private final DotGiamGiaRepository dotGiamGiaRepository;
+
+    @Autowired
+    private SanPhamRepository sanPhamRepository;
+
+    @Autowired
+    private SanPhamChiTietRepository sanPhamChiTietRepository;
 
     @Override
     public List<DotGiamGiaResponse> getAllDotGiamGia() {
@@ -41,7 +54,26 @@ public class DotGiamGiaServiceImpl implements DotGiamGiaService {
         dotGiamGia.setNguoiTao(requestDTO.getNguoiTao());
         dotGiamGia.setNguoiCapNhat(requestDTO.getNguoiCapNhat());
         dotGiamGia.setTrangThai(requestDTO.getTrangThai());
+        dotGiamGia.setNgayTao(new Timestamp(System.currentTimeMillis()));
+        for(Integer id : requestDTO.getListIdSp()){
+            SanPham sanPham = sanPhamRepository.findById(id).get();
+            List<SanPhamChiTiet> list = sanPham.getSanPhamChiTiets();
+            for(SanPhamChiTiet spct: list){
+                if(spct.getDotGiamGia() != null){
+                    throw new MessageException("sản phẩm chi tiết id: "+spct.getId()+" của sản phẩm id: "+sanPham.getId()+" đang có đợt giảm giá");
+                }
+            }
+        }
         DotGiamGia savedDotGiamGia = dotGiamGiaRepository.save(dotGiamGia);
+        for(Integer id : requestDTO.getListIdSp()){
+            SanPham sanPham = sanPhamRepository.findById(id).get();
+            List<SanPhamChiTiet> list = sanPham.getSanPhamChiTiets();
+            for(SanPhamChiTiet spct: list){
+                spct.setGiaTien(spct.getGiaTien() - requestDTO.getGiaTriGiam());
+                spct.setDotGiamGia(savedDotGiamGia);
+                sanPhamChiTietRepository.save(spct);
+            }
+        }
         return convertToResponse(savedDotGiamGia);
     }
 

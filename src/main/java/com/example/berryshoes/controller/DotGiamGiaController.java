@@ -3,16 +3,24 @@ package com.example.berryshoes.controller;
 import com.example.berryshoes.dto.request.DotGiamGiaRequest;
 import com.example.berryshoes.dto.response.DotGiamGiaResponse;
 import com.example.berryshoes.entity.DotGiamGia;
+import com.example.berryshoes.entity.SanPham;
+import com.example.berryshoes.entity.SanPhamChiTiet;
+import com.example.berryshoes.repository.DotGiamGiaRepository;
+import com.example.berryshoes.repository.SanPhamChiTietRepository;
+import com.example.berryshoes.repository.SanPhamRepository;
 import com.example.berryshoes.service.DotGiamGiaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/dot-giam-gia")
@@ -20,6 +28,15 @@ import java.util.Optional;
 public class DotGiamGiaController {
 
     private final DotGiamGiaService dotGiamGiaService;
+
+    @Autowired
+    private DotGiamGiaRepository dotGiamGiaRepository;
+
+    @Autowired
+    private SanPhamRepository sanPhamRepository;
+
+    @Autowired
+    private SanPhamChiTietRepository sanPhamChiTietRepository;
 
     // Lấy tất cả các đợt giảm giá
     @GetMapping
@@ -52,6 +69,35 @@ public class DotGiamGiaController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/ket-thuc")
+    public ResponseEntity<?> ketThuc(@RequestParam Integer id) {
+        DotGiamGia dotGiamGia = dotGiamGiaRepository.findById(id).get();
+        dotGiamGia.setTrangThai(0);
+        dotGiamGiaRepository.save(dotGiamGia);
+        List<SanPhamChiTiet> sanPhamChiTiets = sanPhamRepository.findByDotGiamGia(id);
+        for(SanPhamChiTiet s : sanPhamChiTiets){
+            s.setGiaTien(s.getGiaTien() + dotGiamGia.getGiaTriGiam());
+            s.setDotGiamGia(null);
+            sanPhamChiTietRepository.save(s);
+        }
+        return new ResponseEntity<>("Có "+sanPhamChiTiets.size()+" sản phẩm chi tiết được cập nhật lại giá", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/xoa")
+    public ResponseEntity<?> xoa(@RequestParam Integer id) {
+        DotGiamGia dotGiamGia = dotGiamGiaRepository.findById(id).get();
+        dotGiamGia.setTrangThai(0);
+        dotGiamGiaRepository.save(dotGiamGia);
+        List<SanPhamChiTiet> sanPhamChiTiets = sanPhamRepository.findByDotGiamGia(id);
+        for(SanPhamChiTiet s : sanPhamChiTiets){
+            s.setGiaTien(s.getGiaTien() + dotGiamGia.getGiaTriGiam());
+            s.setDotGiamGia(null);
+            sanPhamChiTietRepository.save(s);
+        }
+        dotGiamGiaRepository.delete(dotGiamGia);
+        return new ResponseEntity<>("Có "+sanPhamChiTiets.size()+" sản phẩm chi tiết được cập nhật lại giá", HttpStatus.OK);
     }
 
     // Xóa đợt giảm giá theo ID
@@ -89,4 +135,14 @@ public class DotGiamGiaController {
         return dotGiamGia != null ? new ResponseEntity<>(dotGiamGia, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    @GetMapping("/san-pham-add")
+    public ResponseEntity<?> sanPhamDaAdd(@RequestParam Integer id) {
+        List<SanPhamChiTiet> sanPhamChiTiets = sanPhamRepository.findByDotGiamGia(id);
+        Set<SanPham> sanPhams = new HashSet<>();
+        for(SanPhamChiTiet s : sanPhamChiTiets){
+            sanPhams.add(s.getSanPham());
+        }
+        return new ResponseEntity<>(sanPhams, HttpStatus.OK);
+    }
+
 }
