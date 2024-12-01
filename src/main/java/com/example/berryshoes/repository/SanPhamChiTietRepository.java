@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,18 +16,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, Integer> {
+public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, Integer>, JpaSpecificationExecutor<SanPhamChiTiet> {
 
- @Query("SELECT spct FROM SanPhamChiTiet spct " +
-           "LEFT JOIN spct.kichCo kc " +
-           "LEFT JOIN spct.mauSac ms " +
-           "LEFT JOIN spct.dotGiamGia dgg " +
-           "LEFT JOIN spct.sanPham sp " +
-           "LEFT JOIN sp.thuongHieu th " +
-           "LEFT JOIN sp.chatLieu cl " +
-           "LEFT JOIN sp.deGiay dg " +
-           "WHERE spct.id = :id")
- Optional<SanPhamChiTiet> findSanPhamChiTietByIdWithDetails(@Param("id") Integer id);
+    @Query("SELECT spct FROM SanPhamChiTiet spct " +
+            "LEFT JOIN spct.kichCo kc " +
+            "LEFT JOIN spct.mauSac ms " +
+            "LEFT JOIN spct.dotGiamGia dgg " +
+            "LEFT JOIN spct.sanPham sp " +
+            "LEFT JOIN sp.thuongHieu th " +
+            "LEFT JOIN sp.chatLieu cl " +
+            "LEFT JOIN sp.deGiay dg " +
+            "WHERE spct.id = :id")
+    Optional<SanPhamChiTiet> findSanPhamChiTietByIdWithDetails(@Param("id") Integer id);
 
     @Query(value = """
             SELECT s FROM SanPhamChiTiet s WHERE s.sanPham.id = :id AND s.mauSac.tenMauSac LIKE %:ten%
@@ -78,25 +79,25 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
             "AND (?4 IS NULL OR " + " spct.sanPham.deGiay.id=?4) AND (?5 IS NULL OR spct.kichCo.id=?5) AND (?6 IS NULL OR spct.mauSac.id=?6)" +
             "AND (?7 IS NULL OR spct.sanPham.chatLieu.id=?7) AND (?8 IS NULL OR spct.sanPham.trangThai=?8)")
     List<SanPhamChiTiet> search(String key, String maSPCT, Integer idThuongHieu, Integer idDeGiay, Integer idKichCo, Integer idMauSac, Integer idChatLieu, Integer trangThai);
-   @Query("SELECT spct FROM SanPhamChiTiet spct WHERE spct.sanPham.id = :Id")
-   List<SanPhamChiTiet> findBySanPhamId(@Param("Id") Integer Id);
-   //update số lượng và giá tiền
-   @Transactional
-   @Modifying
-   @Query(value = "UPDATE SanPhamChiTiet SET soLuong = :soLuong, giaTien = :giaTien WHERE id = :id", nativeQuery = true)
-   void updateSoLuongVaGiaTienById(@Param("id") Integer id, @Param("soLuong") Integer soLuong, @Param("giaTien") BigDecimal giaTien);
-   // lấy id by sản phẩm
-   @Query("SELECT s.sanPham.id FROM SanPhamChiTiet s WHERE s.id = :spctId")
-   Integer findIdBySanpham(Integer spctId);
-   // dùng để lấy giá tiền của spct
-   @Query("SELECT spct.giaTien FROM SanPhamChiTiet spct WHERE spct.id = :productId")
-   BigDecimal findPriceByProductId(@Param("productId") Integer id);
-   // tìm sản phẩm chi tiết theo kích cỡ và màu sắc
-   @Query("SELECT spct FROM SanPhamChiTiet spct WHERE spct.sanPham.id = :sanPhamId AND spct.mauSac.tenMauSac = :color AND spct.kichCo.tenKichCo = :size")
-   SanPhamChiTiet findBySanPhamIdAndColorAndSize(@Param("sanPhamId") Integer sanPhamId, @Param("color") String color, @Param("size") String size);
-//   //Lấy tat ca sp co sl lon
+    @Query("SELECT spct FROM SanPhamChiTiet spct WHERE spct.sanPham.id = :Id")
+    List<SanPhamChiTiet> findBySanPhamId(@Param("Id") Integer Id);
+    //update số lượng và giá tiền
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE SanPhamChiTiet SET soLuong = :soLuong, giaTien = :giaTien WHERE id = :id", nativeQuery = true)
+    void updateSoLuongVaGiaTienById(@Param("id") Integer id, @Param("soLuong") Integer soLuong, @Param("giaTien") BigDecimal giaTien);
+    // lấy id by sản phẩm
+    @Query("SELECT s.sanPham.id FROM SanPhamChiTiet s WHERE s.id = :spctId")
+    Integer findIdBySanpham(Integer spctId);
+    // dùng để lấy giá tiền của spct
+    @Query("SELECT spct.giaTien FROM SanPhamChiTiet spct WHERE spct.id = :productId")
+    BigDecimal findPriceByProductId(@Param("productId") Integer id);
+    // tìm sản phẩm chi tiết theo kích cỡ và màu sắc
+    @Query("SELECT spct FROM SanPhamChiTiet spct WHERE spct.sanPham.id = :sanPhamId AND spct.mauSac.tenMauSac = :color AND spct.kichCo.tenKichCo = :size")
+    SanPhamChiTiet findBySanPhamIdAndColorAndSize(@Param("sanPhamId") Integer sanPhamId, @Param("color") String color, @Param("size") String size);
+    //   //Lấy tat ca sp co sl lon
 //   Page<SanPhamChiTiet> findAllBySoluongLon(Integer soluong, Pageable p);
-@Query("SELECT d FROM DotGiamGia d WHERE d.id =:IdDot")
+    @Query("SELECT d FROM DotGiamGia d WHERE d.id =:IdDot")
     List<SanPhamChiTiet> findSanPhamDotGiamByIdDotgiamgia(Integer IdDot);
 //    List<DotGiamGia> findBySanPhamChiTiet(SanPhamChiTiet spct);
     /// Đợt giảm của spct

@@ -12,4 +12,6 @@ public class SanPhamRequest {
     private String nguoiTao;
     private String nguoiCapNhat;
     private Integer trangThai;
+    private String anh;
+    private Integer giaBan;
 }

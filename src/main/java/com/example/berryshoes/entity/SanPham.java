@@ -1,6 +1,7 @@
 package com.example.berryshoes.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Objects;
 
 @Builder
 @Data
@@ -18,6 +21,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "SanPham")
 public class SanPham {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -58,4 +62,21 @@ public class SanPham {
 
     @Column(name = "TrangThai", columnDefinition = "int default 1")
     private Integer trangThai;
+
+    @OneToMany(mappedBy = "sanPham", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties(value = {"sanPham"})
+    private List<SanPhamChiTiet> sanPhamChiTiets;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SanPham)) return false;
+        SanPham sanPham = (SanPham) o;
+        return Objects.equals(id, sanPham.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.berryshoes.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Data
@@ -71,4 +74,8 @@ public class SanPhamChiTiet {
 
     @Column(name = "TrangThai", columnDefinition = "int default 1")
     private Integer trangThai;
+
+    @OneToMany(mappedBy = "sanPhamChiTiet", cascade = CascadeType.REMOVE)
+    @JsonManagedReference
+    private List<Anh> anhs = new ArrayList<>();
 }
