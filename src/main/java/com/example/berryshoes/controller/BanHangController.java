@@ -62,8 +62,8 @@ public class BanHangController {
     private SanPhamRepository sanPhamRepository;
 
     /*
-    * api sẽ bổ sung tính phí ship sau rồi lấy tổng tiền + phí ship nữa
-    * */
+     * api sẽ bổ sung tính phí ship sau rồi lấy tổng tiền + phí ship nữa
+     * */
     @PostMapping("/create-url-vnpay")
     public ResponseEntity<?> createUrlVnpay(@RequestBody PaymentDto paymentDto, HttpServletRequest request){
         Double tongTien = 0D;
@@ -121,8 +121,8 @@ public class BanHangController {
 
 
     /*
-    *  api tạo đơn hàng khi người dùng về trang thanh cong
-    * */
+     *  api tạo đơn hàng khi người dùng về trang thanh cong
+     * */
 
 
     @PostMapping("/tao-don-hang")
@@ -184,8 +184,8 @@ public class BanHangController {
         System.out.println("tien ship: "+totalShip);
         tongTien += totalShip;
         /*
-        * tạo đơn hàng sau khi đã check thanh toán thành công
-        * */
+         * tạo đơn hàng sau khi đã check thanh toán thành công
+         * */
         HoaDon hoaDon = new HoaDon();
         hoaDon.setKhachHang(khachHang);
         hoaDon.setTongTien(new BigDecimal(tongTien));
@@ -261,4 +261,90 @@ public class BanHangController {
         }
         return new ResponseEntity<>(hoaDon, HttpStatus.CREATED);
     }
+    //
+    @PostMapping("/tao-hoa-don-cho")
+    public ResponseEntity<?> taoHoaDonCho(HttpServletRequest request, @RequestParam(required = false) Integer khachHangId) {
+        NhanVien nhanVien = userUltis.getLoggedInNhanVien(request);
+        KhachHang khachHang = null;
+
+        // Nếu không cung cấp thông tin khách hàng, mặc định là khách lẻ
+        if (khachHangId != null) {
+            khachHang = khachHangRepository.findById(khachHangId)
+                    .orElseThrow(() -> new MessageException("Không tìm thấy khách hàng."));
+        }
+
+        HoaDon hoaDon = new HoaDon();
+        hoaDon.setNhanVien(nhanVien);
+        hoaDon.setKhachHang(khachHang);
+        hoaDon.setLoaiHoaDon(false); // Bán tại quầy
+        hoaDon.setTrangThai(0); // Trạng thái "chờ"
+        hoaDon.setNgayTao(new Timestamp(System.currentTimeMillis()));
+        hoaDon.setMaHoaDon("HD" + System.currentTimeMillis());
+
+        hoaDonRepository.save(hoaDon);
+
+        return new ResponseEntity<>(hoaDon, HttpStatus.CREATED);
+    }
+    @PostMapping("/them-san-pham-vao-hoa-don")
+    public ResponseEntity<?> themSanPhamVaoHoaDon(@RequestParam Integer hoaDonId, @RequestBody List<SanPhamChiTietPayment> sanPhamChiTietPayments) {
+        HoaDon hoaDon = hoaDonRepository.findById(hoaDonId)
+                .orElseThrow(() -> new MessageException("Không tìm thấy hóa đơn chờ."));
+
+        Double tongTien = 0D;
+        for (SanPhamChiTietPayment payment : sanPhamChiTietPayments) {
+            SanPhamChiTiet spct = sanPhamChiTietRepository.findByIdSPCT(payment.getIdSpct());
+            if (spct.getSoLuong() < payment.getSoLuong()) {
+                throw new MessageException("Số lượng sản phẩm: " + spct.getSanPham().getTenSanPham() + " chỉ còn: " + spct.getSoLuong());
+            }
+
+            // Cập nhật chi tiết hóa đơn
+            HoaDonChiTiet hdct = new HoaDonChiTiet();
+            hdct.setHoaDon(hoaDon);
+            hdct.setSanPhamChiTiet(spct);
+            hdct.setSoLuong(payment.getSoLuong().shortValue());
+            hdct.setGiaSanPham(new BigDecimal(spct.getGiaTien()));
+            hdct.setTrangThai(0); // Trạng thái chưa thanh toán
+            hoaDonChiTietRepository.save(hdct);
+
+            // Cập nhật tồn kho
+            spct.setSoLuong(spct.getSoLuong() - payment.getSoLuong().shortValue());
+            sanPhamRepository.save(spct.getSanPham());
+
+            // Tính tổng tiền
+            tongTien += spct.getGiaTien() * payment.getSoLuong();
+        }
+
+        // Cập nhật tổng tiền hóa đơn
+        hoaDon.setTongTien(new BigDecimal(tongTien));
+        hoaDonRepository.save(hoaDon);
+
+        return new ResponseEntity<>(hoaDon, HttpStatus.OK);
+    }
+    @PostMapping("/thanh-toan-hoa-don")
+    public ResponseEntity<?> thanhToanHoaDon(@RequestParam Integer hoaDonId, HttpServletRequest request) {
+        HoaDon hoaDon = hoaDonRepository.findById(hoaDonId)
+                .orElseThrow(() -> new MessageException("Không tìm thấy hóa đơn."));
+
+        if (hoaDon.getTrangThai() != 0) {
+            throw new MessageException("Hóa đơn không ở trạng thái chờ thanh toán.");
+        }
+
+        // Cập nhật trạng thái hóa đơn là "đã thanh toán"
+        hoaDon.setTrangThai(1);
+        hoaDon.setNgayTao(new Timestamp(System.currentTimeMillis()));
+        hoaDonRepository.save(hoaDon);
+
+        // Tạo lịch sử thanh toán
+        PhuongThucThanhToan phuongThucThanhToan = new PhuongThucThanhToan();
+        phuongThucThanhToan.setHoaDon(hoaDon);
+        phuongThucThanhToan.setNgayTao(new Timestamp(System.currentTimeMillis()));
+        phuongThucThanhToan.setTrangThai(1);
+        phuongThucThanhToan.setTenPhuongThuc("Tiền mặt");
+        phuongThucThanhToan.setTongTien(hoaDon.getTongTien());
+        phuongThucThanhToanRepository.save(phuongThucThanhToan);
+
+        return new ResponseEntity<>(hoaDon, HttpStatus.OK);
+    }
+
+
 }
