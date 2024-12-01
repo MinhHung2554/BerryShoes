@@ -3,18 +3,13 @@ package com.example.berryshoes.utils;
 
 import com.example.berryshoes.entity.KhachHang;
 import com.example.berryshoes.entity.NhanVien;
-import com.example.berryshoes.entity.Role;
-import com.example.berryshoes.entity.User;
 import com.example.berryshoes.repository.KhachHangRepository;
 import com.example.berryshoes.repository.NhanVienRepository;
-import com.example.berryshoes.repository.UserRepository;
-import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
 import java.util.List;
 
 @Component
