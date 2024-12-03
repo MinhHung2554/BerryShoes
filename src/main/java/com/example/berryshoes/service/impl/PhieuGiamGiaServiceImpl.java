@@ -71,6 +71,15 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
         return null;
     }
 
+    public PhieuGiamGia update_sl(Integer id, Short sl) {
+        Optional<PhieuGiamGia> optionalPhieuGiamGia = phieuGiamGiaRepository.findById(id);
+        optionalPhieuGiamGia.get().setSoLuong((short) (optionalPhieuGiamGia.get().getSoLuong() + sl));
+        if (optionalPhieuGiamGia.get().getSoLuong() == 0) {
+            optionalPhieuGiamGia.get().setTrangThai(2);
+        }
+        return phieuGiamGiaRepository.save(optionalPhieuGiamGia.get());
+    }
+
     @Override
     public void delete(Integer id) {
         if (phieuGiamGiaRepository.existsById(id)) {

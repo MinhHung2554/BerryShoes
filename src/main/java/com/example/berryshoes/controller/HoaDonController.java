@@ -7,6 +7,8 @@ import com.example.berryshoes.entity.*;
 import com.example.berryshoes.exception.MessageException;
 import com.example.berryshoes.ghn.GhnClient;
 import com.example.berryshoes.repository.*;
+import com.example.berryshoes.service.PhieuGiamGiaService;
+import com.example.berryshoes.service.impl.PhieuGiamGiaServiceImpl;
 import com.example.berryshoes.utils.MailService;
 import com.example.berryshoes.utils.UserUltis;
 import com.example.berryshoes.vnpay.VNPayService;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -33,6 +36,12 @@ public class HoaDonController {
 
     @Autowired
     private LichSuHoaDonRepository lichSuHoaDonRepository;
+
+    @Autowired
+    private PhieuGiamGiaService phieuGiamGiaService;
+
+    @Autowired
+    private PhieuGiamGiaServiceImpl phieuGiamGiaServiceImpl;
 
     @Autowired
     private UserUltis userUltis;
@@ -319,6 +328,41 @@ public class HoaDonController {
         return new ResponseEntity<>(h,HttpStatus.OK);
     }
 
+    @PostMapping("/cap-nhat-phieu-giam-gia")
+    public ResponseEntity<?> capNhapPhieuGiamGia_sl(@RequestParam Integer idPGG, @RequestParam Integer idHoaDon){
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        Optional<PhieuGiamGia> phieuGiamGia = phieuGiamGiaService.getPhieuGiamGiaById(idPGG);
+        if (phieuGiamGia.get().getTrangThai() != 1) {
+           return new ResponseEntity<>("Phiếu giảm giá đã hết được sử dụng vui lòng chọn phiếu giảm giá khác", HttpStatus.valueOf(417));
+        }
+        if(phieuGiamGia.isEmpty()){
+            hoaDon.setPhieuGiamGia(null);
+        }
+        else{
+            hoaDon.setPhieuGiamGia(phieuGiamGia.get());
+            phieuGiamGiaServiceImpl.update_sl(phieuGiamGia.get().getId(), (short) -1);
+        }
+
+        HoaDon h = hoaDonRepository.save(hoaDon);
+        return new ResponseEntity<>(h,HttpStatus.OK);
+    }
+
+    @PostMapping("/cap-nhat-phieu-giam-gia-hd")
+    public ResponseEntity<?> capNhapPhieuGiamGia(@RequestParam Integer idPGG, @RequestParam Integer idHoaDon){
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        Optional<PhieuGiamGia> phieuGiamGia = phieuGiamGiaService.getPhieuGiamGiaById(idPGG);
+        if(phieuGiamGia.isEmpty()){
+            hoaDon.setPhieuGiamGia(null);
+        }
+        else{
+            hoaDon.setPhieuGiamGia(phieuGiamGia.get());
+        }
+
+        HoaDon h = hoaDonRepository.save(hoaDon);
+        return new ResponseEntity<>(h,HttpStatus.OK);
+    }
+
+
     @GetMapping("/find-by-id")
     public ResponseEntity<?> findById(@RequestParam Integer id){
         HoaDon hoaDon = hoaDonRepository.findById(id).get();
@@ -329,11 +373,11 @@ public class HoaDonController {
     public ResponseEntity<?> xacNhanDatHang(@RequestParam Integer idHoaDon){
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
         Double tongTien = 0D;
-        for(HoaDonChiTiet hc : hoaDon.getHoaDonChiTiets()){
-            if(hc.getSanPhamChiTiet().getSoLuong() < hc.getSoLuong()){
-                throw new MessageException("Số lượng sản phẩm "+hc.getSanPhamChiTiet().getSanPham().getTenSanPham()+" - màu "+hc.getSanPhamChiTiet().getMauSac().getTenMauSac()+" - size: "+hc.getSanPhamChiTiet().getKichCo().getTenKichCo()+" chỉ còn: "+ hc.getSanPhamChiTiet().getSoLuong());
-            }
-        }
+//        for(HoaDonChiTiet hc : hoaDon.getHoaDonChiTiets()){
+//            if(hc.getSanPhamChiTiet().getSoLuong() < hc.getSoLuong()){
+//                throw new MessageException("Số lượng sản phẩm "+hc.getSanPhamChiTiet().getSanPham().getTenSanPham()+" - màu "+hc.getSanPhamChiTiet().getMauSac().getTenMauSac()+" - size: "+hc.getSanPhamChiTiet().getKichCo().getTenKichCo()+" chỉ còn: "+ hc.getSanPhamChiTiet().getSoLuong());
+//            }
+//        }
         for(HoaDonChiTiet hc : hoaDon.getHoaDonChiTiets()){
             hc.getSanPhamChiTiet().setSoLuong(hc.getSanPhamChiTiet().getSoLuong() - hc.getSoLuong());
             sanPhamChiTietRepository.save(hc.getSanPhamChiTiet());

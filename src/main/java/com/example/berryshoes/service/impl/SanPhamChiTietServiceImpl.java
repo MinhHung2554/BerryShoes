@@ -50,6 +50,15 @@ public class SanPhamChiTietServiceImpl implements SanPhamChiTietService {
         return sanPhamChiTietRepository.save(sanPhamChiTiet);
     }
 
+    public void update_quality_detail_product(Integer id, Integer quality, Integer quality_new) {
+        Optional<SanPhamChiTiet> optionalSanPhamChiTiet = sanPhamChiTietRepository.findById(id);
+        if (optionalSanPhamChiTiet.isPresent()) {
+            SanPhamChiTiet sanPhamChiTiet = optionalSanPhamChiTiet.get();
+            sanPhamChiTiet.setSoLuong(Math.max((sanPhamChiTiet.getSoLuong() - quality) - quality_new, 0));
+            sanPhamChiTietRepository.save(sanPhamChiTiet);
+        }
+    }
+
     // Cập nhật chi tiết sản phẩm
     public SanPhamChiTiet update(Integer id, SanPhamChiTietRequest requestDTO) {
         Optional<SanPhamChiTiet> optionalSanPhamChiTiet = sanPhamChiTietRepository.findById(id);

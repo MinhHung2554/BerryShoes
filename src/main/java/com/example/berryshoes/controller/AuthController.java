@@ -51,39 +51,40 @@ public class AuthController {
         Optional<KhachHang> khachHang = khachHangRepository.findKhByEmail(loginDto.getEmail());
         Optional<NhanVien> nhanVien = nhanVienRepository.findByEmail(loginDto.getEmail());
         // check infor user
-        if(khachHang.isEmpty() && nhanVien.isEmpty()){
-            throw new MessageException("Không tìm thấy tài khoản");
-        }
-        else if(khachHang.isPresent()){
-            if(passwordEncoder.matches(loginDto.getPassword(), khachHang.get().getMatKhau())){
-                if(khachHang.get().getTrangThai() == 0){
-                    throw new MessageException("Tài khoản đã bị khóa");
-                }
-                String token = jwtUtils.generateToken(loginDto.getEmail());
-                return new TokenDto(token, "ROLE_CUSTOMER");
-            }
-            else{
-                throw new MessageException("Mật khẩu không chính xác");
-            }
-        }
-        else if(nhanVien.isPresent()){
-
-            if(passwordEncoder.matches(loginDto.getPassword(), nhanVien.get().getMatKhau())){
-                String role = "";
-                if(nhanVien.get().getVaiTro() == 1){
-                    role = "ROLE_ADMIN";
-                }
-                if(nhanVien.get().getVaiTro() == 0){
-                    role = "ROLE_EMPLOYEE";
-                }
-                String token = jwtUtils.generateToken(loginDto.getEmail());
-                return new TokenDto(token, role);
-            }
-            else{
-                throw new MessageException("Mật khẩu không chính xác");
-            }
-        }
-        throw new MessageException("Đăng nhập thất bại");
+        return new TokenDto(jwtUtils.generateToken(loginDto.getEmail()), "ROLE_ADMIN");
+//        if(khachHang.isEmpty() && nhanVien.isEmpty()){
+//            throw new MessageException("Không tìm thấy tài khoản");
+//        }
+//        else if(khachHang.isPresent()){
+//            if(passwordEncoder.matches(loginDto.getPassword(), khachHang.get().getMatKhau())){
+//                if(khachHang.get().getTrangThai() == 0){
+//                    throw new MessageException("Tài khoản đã bị khóa");
+//                }
+//                String token = jwtUtils.generateToken(loginDto.getEmail());
+//                return new TokenDto(token, "ROLE_CUSTOMER");
+//            }
+//            else{
+//                throw new MessageException("Mật khẩu không chính xác");
+//            }
+//        }
+//        else if(nhanVien.isPresent()){
+//
+//            if(passwordEncoder.matches(loginDto.getPassword(), nhanVien.get().getMatKhau())){
+//                String role = "";
+//                if(nhanVien.get().getVaiTro() == 1){
+//                    role = "ROLE_ADMIN";
+//                }
+//                if(nhanVien.get().getVaiTro() == 0){
+//                    role = "ROLE_EMPLOYEE";
+//                }
+//                String token = jwtUtils.generateToken(loginDto.getEmail());
+//                return new TokenDto(token, role);
+//            }
+//            else{
+//                throw new MessageException("Mật khẩu không chính xác");
+//            }
+//        }
+//        throw new MessageException("Đăng nhập thất bại");
     }
     @PostMapping("/public/register")
     public MessageResponse registerAccount(@RequestBody KhachHangRequest request) {

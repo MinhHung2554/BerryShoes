@@ -60,6 +60,9 @@ public class PhieuGiamGiaController {
     // Tạo mới phiếu giảm giá
     @PostMapping
     public ResponseEntity<PhieuGiamGia> createPhieuGiamGia(@RequestBody PhieuGiamGiaRequest requestDTO) {
+        if (requestDTO.getLoaiPhieu()) {
+            requestDTO.setGiaTriGiam(0);
+        }
         PhieuGiamGia createdPhieuGiamGia = phieuGiamGiaService.create(requestDTO);
         return ResponseEntity.ok(createdPhieuGiamGia);
     }
@@ -67,6 +70,9 @@ public class PhieuGiamGiaController {
     // Cập nhật phiếu giảm giá
     @PostMapping("/{id}")
     public ResponseEntity<PhieuGiamGia> updatePhieuGiamGia(@PathVariable Integer id, @RequestBody PhieuGiamGiaRequest requestDTO) {
+        if (requestDTO.getLoaiPhieu()) {
+            requestDTO.setGiaTriGiam(0);
+        }
         PhieuGiamGia updatedPhieuGiamGia = phieuGiamGiaService.update(id, requestDTO);
         return updatedPhieuGiamGia != null ? ResponseEntity.ok(updatedPhieuGiamGia) : ResponseEntity.notFound().build();
     }
