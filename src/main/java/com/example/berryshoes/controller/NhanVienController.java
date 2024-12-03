@@ -1,6 +1,8 @@
 package com.example.berryshoes.controller;
 
 import com.example.berryshoes.dto.response.NhanVienResponse;
+import com.example.berryshoes.entity.KhachHang;
+import com.example.berryshoes.repository.NhanVienRepository;
 import com.example.berryshoes.service.NhanVienService;
 import com.example.berryshoes.dto.request.NhanVienRequest;
 import com.example.berryshoes.entity.NhanVien;
@@ -8,12 +10,16 @@ import com.example.berryshoes.utils.UserUltis;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
+
 
 @RestController
 @RequestMapping("/api/nhan-vien")
@@ -21,6 +27,8 @@ import java.util.Optional;
 public class NhanVienController {
 
     private final NhanVienService nhanVienService;
+    @Autowired
+    private final NhanVienRepository nvrp;
 
     @Autowired
     private UserUltis userUltis;
@@ -30,6 +38,13 @@ public class NhanVienController {
     public ResponseEntity<List<NhanVien>> getAllNhanVien() {
         List<NhanVien> nhanVienList = nhanVienService.getAllNhanVien();
         return ResponseEntity.ok(nhanVienList);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll(Pageable pageable, @RequestParam(required = false) Integer trangthai){
+        Page<NhanVien> page = null;
+        page = nvrp.findAll(pageable);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     // Lấy nhân viên theo ID

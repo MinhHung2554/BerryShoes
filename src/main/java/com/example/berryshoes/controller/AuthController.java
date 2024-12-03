@@ -51,40 +51,40 @@ public class AuthController {
         Optional<KhachHang> khachHang = khachHangRepository.findKhByEmail(loginDto.getEmail());
         Optional<NhanVien> nhanVien = nhanVienRepository.findByEmail(loginDto.getEmail());
         // check infor user
-        return new TokenDto(jwtUtils.generateToken(loginDto.getEmail()), "ROLE_ADMIN");
-//        if(khachHang.isEmpty() && nhanVien.isEmpty()){
-//            throw new MessageException("Không tìm thấy tài khoản");
-//        }
-//        else if(khachHang.isPresent()){
-//            if(passwordEncoder.matches(loginDto.getPassword(), khachHang.get().getMatKhau())){
-//                if(khachHang.get().getTrangThai() == 0){
-//                    throw new MessageException("Tài khoản đã bị khóa");
-//                }
-//                String token = jwtUtils.generateToken(loginDto.getEmail());
-//                return new TokenDto(token, "ROLE_CUSTOMER");
-//            }
-//            else{
-//                throw new MessageException("Mật khẩu không chính xác");
-//            }
-//        }
-//        else if(nhanVien.isPresent()){
-//
-//            if(passwordEncoder.matches(loginDto.getPassword(), nhanVien.get().getMatKhau())){
-//                String role = "";
-//                if(nhanVien.get().getVaiTro() == 1){
-//                    role = "ROLE_ADMIN";
-//                }
-//                if(nhanVien.get().getVaiTro() == 0){
-//                    role = "ROLE_EMPLOYEE";
-//                }
-//                String token = jwtUtils.generateToken(loginDto.getEmail());
-//                return new TokenDto(token, role);
-//            }
-//            else{
-//                throw new MessageException("Mật khẩu không chính xác");
-//            }
-//        }
-//        throw new MessageException("Đăng nhập thất bại");
+//        return new TokenDto(jwtUtils.generateToken(loginDto.getEmail()), "ROLE_ADMIN");
+        if(khachHang.isEmpty() && nhanVien.isEmpty()){
+            throw new MessageException("Không tìm thấy tài khoản");
+        }
+        else if(khachHang.isPresent()){
+            if(passwordEncoder.matches(loginDto.getPassword(), khachHang.get().getMatKhau())){
+                if(khachHang.get().getTrangThai() == 0){
+                    throw new MessageException("Tài khoản đã bị khóa");
+                }
+                String token = jwtUtils.generateToken(loginDto.getEmail());
+                return new TokenDto(token, "ROLE_CUSTOMER");
+            }
+            else{
+                throw new MessageException("Mật khẩu không chính xác");
+            }
+        }
+        else if(nhanVien.isPresent()){
+
+            if(passwordEncoder.matches(loginDto.getPassword(), nhanVien.get().getMatKhau())){
+                String role = "";
+                if(nhanVien.get().getVaiTro() == 1){
+                    role = "ROLE_ADMIN";
+                }
+                if(nhanVien.get().getVaiTro() == 0){
+                    role = "ROLE_EMPLOYEE";
+                }
+                String token = jwtUtils.generateToken(loginDto.getEmail());
+                return new TokenDto(token, role);
+            }
+            else{
+                throw new MessageException("Mật khẩu không chính xác");
+            }
+        }
+        throw new MessageException("Đăng nhập thất bại");
     }
     @PostMapping("/public/register")
     public MessageResponse registerAccount(@RequestBody KhachHangRequest request) {
@@ -124,13 +124,13 @@ public class AuthController {
     // Tạo mã khách hàng theo định dạng KHxxx
     private String generateMaKhachHang() {
         // Lấy mã khách hàng lớn nhất trong bảng Khách hàng
-        Optional<String> maxMaKhachHang = khachHangRepository.findMaxMaKhachHang();
-
-        // Chuyển đổi mã thành số và cộng thêm 1
-        int nextId = maxMaKhachHang.isPresent() ? Integer.parseInt(maxMaKhachHang.get().substring(2)) + 1 : 1;
+//        Optional<String> maxMaKhachHang = khachHangRepository.findMaxMaKhachHang();
+//
+//        // Chuyển đổi mã thành số và cộng thêm 1
+//        int nextId = maxMaKhachHang.isPresent() ? Integer.parseInt(maxMaKhachHang.get().substring(2)) + 1 : 1;
 
         // Đảm bảo định dạng mã khách hàng là KHxxx (ví dụ KH001, KH002,...)
-        return String.format("KH%03d", nextId);
+        return "kh" + new Random().nextInt(10000);
     }
 
     // Gửi mã OTP vào email

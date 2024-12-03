@@ -73,6 +73,6 @@ public class SanPhamChiTietController {
     public ResponseEntity<?> locSanPhamChiTiet(@RequestBody ChiTietSpSearch search) {
         SanPhamChiTietSpecification sp = new SanPhamChiTietSpecification(search.getThuongHieuId(), search.getChatLieuId(), search.getDeGiayId(), search.getMauSacId(), search.getKichThuocId());
         List<SanPhamChiTiet> sanPhamList = sanPhamChiTietRepository.findAll(sp);
-        return ResponseEntity.ok(sanPhamList);
+        return ResponseEntity.ok(sanPhamList.stream().filter(i -> i.getTrangThai() == 1));
     }
 }

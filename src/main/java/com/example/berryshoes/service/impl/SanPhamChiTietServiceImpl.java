@@ -23,7 +23,7 @@ public class SanPhamChiTietServiceImpl implements SanPhamChiTietService {
 
     // Lấy tất cả chi tiết sản phẩm
     public List<SanPhamChiTiet> getAll() {
-        return sanPhamChiTietRepository.findAll();
+        return sanPhamChiTietRepository.findAll().stream().filter(i -> i.getTrangThai() == 1).toList();
     }
 
     // Lấy chi tiết sản phẩm theo ID
@@ -55,6 +55,9 @@ public class SanPhamChiTietServiceImpl implements SanPhamChiTietService {
         if (optionalSanPhamChiTiet.isPresent()) {
             SanPhamChiTiet sanPhamChiTiet = optionalSanPhamChiTiet.get();
             sanPhamChiTiet.setSoLuong(Math.max((sanPhamChiTiet.getSoLuong() - quality) - quality_new, 0));
+            if (sanPhamChiTiet.getSoLuong() <= 0) {
+                sanPhamChiTiet.setTrangThai(2);
+            }
             sanPhamChiTietRepository.save(sanPhamChiTiet);
         }
     }
