@@ -125,7 +125,7 @@ public class HoaDonController {
     public ResponseEntity<?> findAll(Pageable pageable, @RequestParam(required = false) Integer trangthai){
         Page<HoaDon> page = null;
         if(trangthai == null){
-            page = hoaDonRepository.findAll(pageable);
+            page = hoaDonRepository.findAllHd(pageable);
         }
         else{
             page = hoaDonRepository.findByTrangThai(trangthai, pageable);
@@ -333,7 +333,7 @@ public class HoaDonController {
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
         Optional<PhieuGiamGia> phieuGiamGia = phieuGiamGiaService.getPhieuGiamGiaById(idPGG);
         if (phieuGiamGia.get().getTrangThai() != 1) {
-           return new ResponseEntity<>("Phiếu giảm giá đã hết được sử dụng vui lòng chọn phiếu giảm giá khác", HttpStatus.valueOf(417));
+            return new ResponseEntity<>("Phiếu giảm giá đã hết được sử dụng vui lòng chọn phiếu giảm giá khác", HttpStatus.valueOf(417));
         }
         if(phieuGiamGia.isEmpty()){
             hoaDon.setPhieuGiamGia(null);

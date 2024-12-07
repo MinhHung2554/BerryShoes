@@ -13,6 +13,9 @@ import java.util.Optional;
 
 @Repository
 public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
+    @Query("select h from HoaDon h where h.loaiHoaDon = true or (h.loaiHoaDon = false and h.trangThai = 8)")
+    Page<HoaDon> findAllHd(Pageable pageable);
+
     @Query("SELECT h FROM HoaDon h WHERE h.maHoaDon =?1 OR h.email =?1 OR h.soDienThoai =?1 ORDER BY h.ngayTao DESC")
     List<HoaDon> findHoaDonByMaOrSdtOrEmail(String inputSearch);
     @Query("SELECT h FROM HoaDon h where h.id =?1")
