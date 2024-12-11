@@ -67,6 +67,17 @@ public class ChatLieuController {
         List<ChatLieu> chatLieuPage = chatLieuRepository.findAll();
         return ResponseEntity.ok(chatLieuPage);
     }
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll(Pageable pageable, @RequestParam(required = false) Integer trangthai){
+        Page<ChatLieu> page = null;
+        if(trangthai == null){
+            page = chatLieuRepository.findAll(pageable);
+        }
+        else{
+            page = chatLieuRepository.findByTrangThai(trangthai, pageable);
+        }
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
 
     // Lấy chất liệu theo ID
     @GetMapping("/{id}")

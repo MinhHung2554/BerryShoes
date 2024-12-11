@@ -10,7 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +23,18 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
 
     @Override
     public List<PhieuGiamGia> getAllPhieuGiamGia() {
-        return phieuGiamGiaRepository.findAll();
+        List<PhieuGiamGia> phieuGiamGias = phieuGiamGiaRepository.findAll();
+        Date now = new Date();
+
+        for (PhieuGiamGia phieu : phieuGiamGias) {
+            if (now.before(phieu.getNgayBatDau())) {
+                phieu.setTrangThai(2); // Chưa bắt đầu
+            } else if (now.after(phieu.getNgayKetThuc())) {
+                phieu.setTrangThai(3); // Đã hết hạn
+            }
+        }
+        return phieuGiamGias;
+//        return phieuGiamGiaRepository.findAll();
     }
 
     @Override

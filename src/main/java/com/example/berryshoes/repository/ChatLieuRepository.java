@@ -1,7 +1,10 @@
 package com.example.berryshoes.repository;
 
 import com.example.berryshoes.entity.ChatLieu;
+import com.example.berryshoes.entity.ThuongHieu;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -45,4 +48,7 @@ public interface ChatLieuRepository extends JpaRepository<ChatLieu, Integer> {
     @Transactional
     @Query("UPDATE ChatLieu cl SET cl.trangThai = 0 WHERE cl.id = :id")
     void updateTrangThaiToFalseById(@Param("id") Integer id);
+
+    @Query("select cl from ChatLieu cl where cl.trangThai = ?1")
+    Page<ChatLieu> findByTrangThai(Integer trangthai, Pageable pageable);
 }
