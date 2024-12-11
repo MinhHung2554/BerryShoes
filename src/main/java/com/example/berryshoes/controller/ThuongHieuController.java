@@ -91,17 +91,17 @@ public class ThuongHieuController {
 
     private void validateThuongHieu(ThuongHieuRequest requestDTO) {
         if (requestDTO.getTenThuongHieu() == null || requestDTO.getTenThuongHieu().trim().isEmpty()) {
-            throw new IllegalArgumentException("Tên chất liệu không được trống");
+            throw new IllegalArgumentException("Tên thương hiệu không được trống");
         }
 
         // Kiểm tra độ dài tên chất liệu không quá 255 ký tự
         if (requestDTO.getTenThuongHieu().length() > 255) {
-            throw new IllegalArgumentException("Tên chất liệu quá dài");
+            throw new IllegalArgumentException("Tên thương hiệu quá dài");
         }
 
         // Kiểm tra trùng lặp tên chất liệu
         if (thuongHieuService.existsByTenThuongHieu(requestDTO.getTenThuongHieu())) {
-            throw new IllegalArgumentException("Tên chất liệu đã tồn tại");
+            throw new IllegalArgumentException("Tên thương hiệu đã tồn tại");
         }
     }
 

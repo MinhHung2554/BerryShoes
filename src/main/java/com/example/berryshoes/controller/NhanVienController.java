@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.Pageable;
-
 
 @RestController
 @RequestMapping("/api/nhan-vien")
@@ -28,7 +26,7 @@ public class NhanVienController {
 
     private final NhanVienService nhanVienService;
     @Autowired
-    private final NhanVienRepository nvrp;
+    private final NhanVienRepository nhanVienRepository;
 
     @Autowired
     private UserUltis userUltis;
@@ -38,13 +36,6 @@ public class NhanVienController {
     public ResponseEntity<List<NhanVien>> getAllNhanVien() {
         List<NhanVien> nhanVienList = nhanVienService.getAllNhanVien();
         return ResponseEntity.ok(nhanVienList);
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<?> findAll(Pageable pageable, @RequestParam(required = false) Integer trangthai){
-        Page<NhanVien> page = null;
-        page = nvrp.findAll(pageable);
-        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     // Lấy nhân viên theo ID
@@ -75,6 +66,74 @@ public class NhanVienController {
         return ResponseEntity.noContent().build();
     }
 
+
+    // Tìm nhân viên theo email
+    @GetMapping("/email/{email}")
+    public ResponseEntity<NhanVien> getNhanVienByEmail(@PathVariable String email) {
+        NhanVien nhanVien = nhanVienService.findNhanVienByEmail(email);
+        return nhanVien != null ? ResponseEntity.ok(nhanVien) : ResponseEntity.notFound().build();
+    }
+
+    // Tìm nhân viên theo mã nhân viên
+    @GetMapping("/ma-nhan-vien/{maNhanVien}")
+    public ResponseEntity<List<NhanVien>> findNhanVienByMaNhanVien(@PathVariable String maNhanVien) {
+        List<NhanVien> nhanVienList = nhanVienService.findNhanVienByMa(maNhanVien);
+        return ResponseEntity.ok(nhanVienList);
+    }
+
+    // Lấy tất cả nhân viên sắp xếp theo lần cập nhật cuối giảm dần
+    @GetMapping("/order-by-update-time")
+    public ResponseEntity<List<NhanVien>> getAllNhanVienOrderByUpdateTime() {
+        List<NhanVien> nhanVienList = nhanVienService.getAllOrderByLanCapNhatCuoiDesc();
+        return ResponseEntity.ok(nhanVienList);
+    }
+
+
+    // Lấy tất cả nhân viên ngoại trừ một ID, sắp xếp theo lần cập nhật cuối
+    @GetMapping("/exclude-id/{id}")
+    public ResponseEntity<List<NhanVien>> getAllNhanVienExceptId(@PathVariable Integer id) {
+        List<NhanVien> nhanVienList = nhanVienService.getAllExceptId(id);
+        return ResponseEntity.ok(nhanVienList);
+    }
+    // Phân trang
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll(Pageable pageable, @RequestParam(required = false) Integer trangthai){
+        Page<NhanVien> page = null;
+        if(trangthai == null){
+            page = nhanVienRepository.findAll(pageable);
+        }
+        else{
+            page = nhanVienRepository.findByTrangThai(trangthai, pageable);
+        }
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+    // Tìm kiếm nhân viên theo tên hoặc số điện thoại
+    @GetMapping("/search")
+    public ResponseEntity<List<NhanVien>> findNhanVienByHoVaTenOrSoDienThoai(@RequestParam String hoVaTen, @RequestParam String soDienThoai) {
+        List<NhanVien> khachHangList = nhanVienService.findByHoVaTenOrSoDienThoai(hoVaTen, soDienThoai);
+        return ResponseEntity.ok(khachHangList);
+    }
+
+    // Cập nhật mật khẩu cho nhân viên
+    @PutMapping("/update-password")
+    public ResponseEntity<Void> updatePassword(@RequestParam String taiKhoan, @RequestParam String newPassword) {
+        nhanVienService.updatePassword(taiKhoan, newPassword);
+        return ResponseEntity.ok().build();
+    }
+
+    // Kiểm tra tồn tại số điện thoại
+    @GetMapping("/exists/soDienThoai")
+    public ResponseEntity<Boolean> existsBySoDienThoai(@RequestParam String soDienThoai) {
+        boolean exists = nhanVienService.existsBySoDienThoai(soDienThoai);
+        return ResponseEntity.ok(exists);
+    }
+
+    // Kiểm tra tồn tại email
+    @GetMapping("/exists/email")
+    public ResponseEntity<Boolean> existsByEmail(@RequestParam String email) {
+        boolean exists = nhanVienService.existsByEmail(email);
+        return ResponseEntity.ok(exists);
+    }
     @PostMapping("/dang-dang-nhap")
     public ResponseEntity<?> nhanVienDangDangNhap(HttpServletRequest request) {
         NhanVien nhanVien = userUltis.getLoggedInNhanVien(request);

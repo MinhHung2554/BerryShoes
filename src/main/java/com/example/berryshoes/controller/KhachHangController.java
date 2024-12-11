@@ -88,12 +88,12 @@ public class KhachHangController {
         return ResponseEntity.ok(khachHangList);
     }
 
-    // Cập nhật mật khẩu cho khách hàng
-    @PutMapping("/update-password")
-    public ResponseEntity<Void> updatePassword(@RequestParam String taiKhoan, @RequestParam String newPassword) {
-        khachHangService.updatePassword(taiKhoan, newPassword);
-        return ResponseEntity.ok().build();
-    }
+//    // Cập nhật mật khẩu cho khách hàng
+//    @PutMapping("/update-password")
+//    public ResponseEntity<Void> updatePassword(@RequestParam String taiKhoan, @RequestParam String newPassword) {
+//        khachHangService.updatePassword(taiKhoan, newPassword);
+//        return ResponseEntity.ok().build();
+//    }
 
     // Kiểm tra tồn tại số điện thoại
     @GetMapping("/exists/soDienThoai")

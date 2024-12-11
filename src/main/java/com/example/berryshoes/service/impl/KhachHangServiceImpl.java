@@ -36,8 +36,8 @@ public class KhachHangServiceImpl implements KhachHangService {
                 .gioiTinh(requestDTO.getGioiTinh())
                 .soDienThoai(requestDTO.getSoDienThoai())
                 .email(requestDTO.getEmail())
-                .taiKhoan(requestDTO.getTaiKhoan())
-                .matKhau(requestDTO.getMatKhau())
+//                .taiKhoan(requestDTO.getTaiKhoan())
+//                .matKhau(requestDTO.getMatKhau())
                 .nguoiTao(requestDTO.getNguoiTao())
                 .trangThai(requestDTO.getTrangThai())
                 .build();
@@ -56,8 +56,8 @@ public class KhachHangServiceImpl implements KhachHangService {
             khachHang.setGioiTinh(requestDTO.getGioiTinh());
             khachHang.setSoDienThoai(requestDTO.getSoDienThoai());
             khachHang.setEmail(requestDTO.getEmail());
-            khachHang.setTaiKhoan(requestDTO.getTaiKhoan());
-            khachHang.setMatKhau(requestDTO.getMatKhau());
+//            khachHang.setTaiKhoan(requestDTO.getTaiKhoan());
+//            khachHang.setMatKhau(requestDTO.getMatKhau());
             khachHang.setNguoiCapNhat(requestDTO.getNguoiCapNhat());
             khachHang.setTrangThai(requestDTO.getTrangThai());
 
@@ -81,10 +81,15 @@ public class KhachHangServiceImpl implements KhachHangService {
             throw new RuntimeException("Khách hàng không tồn tại");
         }
     }
+
     @Override
     public KhachHang findKhachHangByTaikhoan(String taiKhoan) {
-        return khachHangRepository.findKhachHangByTaikhoan(taiKhoan);
+        return null;
     }
+//    @Override
+//    public KhachHang findKhachHangByTaikhoan(String taiKhoan) {
+//        return khachHangRepository.findKhachHangByTaikhoan(taiKhoan);
+//    }
 
     @Override
     public List<KhachHang> findByHoVaTenOrSoDienThoai(String hoVaTen, String soDienThoai) {
@@ -101,10 +106,10 @@ public class KhachHangServiceImpl implements KhachHangService {
         return khachHangRepository.findKhachHangByEmail(email);
     }
 
-    @Override
-    public void updatePassword(String taiKhoan, String newPassword) {
-        khachHangRepository.updatePassword(taiKhoan, newPassword);
-    }
+//    @Override
+//    public void updatePassword(String taiKhoan, String newPassword) {
+//        khachHangRepository.updatePassword(taiKhoan, newPassword);
+//    }
 
     @Override
     public boolean existsBySoDienThoai(String soDienThoai) {

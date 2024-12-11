@@ -1,12 +1,14 @@
 package com.example.berryshoes.service.impl;
 
 import com.example.berryshoes.dto.request.NhanVienRequest;
+import com.example.berryshoes.entity.KhachHang;
 import com.example.berryshoes.entity.NhanVien;
 import com.example.berryshoes.repository.NhanVienRepository;
 import com.example.berryshoes.service.NhanVienService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,9 +38,9 @@ public class NhanVienServiceImpl implements NhanVienService {
                 .queQuan(requestDTO.getQueQuan())
                 .cccd(requestDTO.getCccd())
                 .soDienThoai(requestDTO.getSoDienThoai())
-//                .email(requestDTO.getEmail())
-//                .taiKhoan(requestDTO.getTaiKhoan())
-//                .matKhau(requestDTO.getMatKhau())
+                .email(requestDTO.getEmail())
+                .taiKhoan(requestDTO.getTaiKhoan())
+                .matKhau(requestDTO.getMatKhau())
                 .vaiTro(requestDTO.getVaiTro())
                 .nguoiTao(requestDTO.getNguoiTao())
                 .trangThai(requestDTO.getTrangThai())
@@ -79,4 +81,46 @@ public class NhanVienServiceImpl implements NhanVienService {
             throw new RuntimeException("Nhân viên không tồn tại");
         }
     }
+
+    @Override
+    public NhanVien findNhanVienByEmail(String email) {
+        return nhanVienRepository.findNhanVienByEmail(email);
+    }
+
+    @Override
+    public List<NhanVien> findNhanVienByMa(String maNhanVien) {
+        return nhanVienRepository.timNhanVienTheoMa(maNhanVien);
+    }
+
+    @Override
+    public List<NhanVien> getAllOrderByLanCapNhatCuoiDesc() {
+        return nhanVienRepository.getAllOrderByLanCapNhatCuoiDesc();
+    }
+
+    @Override
+    public List<NhanVien> getAllExceptId(Integer id) {
+        return nhanVienRepository.getAllExceptId(id);
+    }
+
+    // Tìm kiếm nhân viên theo tên hoặc số điện thoại
+    @Override
+    public List<NhanVien> findByHoVaTenOrSoDienThoai(String hoVaTen, String soDienThoai) {
+        return nhanVienRepository.findByHoVaTenOrSoDienThoai(hoVaTen, soDienThoai);
+    }
+    // Cập nhật mật khẩu cho nhân viên
+    @Override
+    public void updatePassword(String taiKhoan, String newPassword) {
+        nhanVienRepository.updatePassword(taiKhoan, newPassword);
+    }
+    // Kiểm tra tồn tại SĐT
+    @Override
+    public boolean existsBySoDienThoai(String soDienThoai) {
+        return nhanVienRepository.existsBySoDienThoai(soDienThoai);
+    }
+    // Kiểm tra tồn tại email
+    @Override
+    public boolean existsByEmail(String email) {
+        return nhanVienRepository.existsByEmail(email);
+    }
+
 }

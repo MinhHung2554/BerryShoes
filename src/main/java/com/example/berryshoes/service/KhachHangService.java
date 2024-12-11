@@ -24,7 +24,7 @@ public interface KhachHangService {
     KhachHang findKhachHangByEmail(String email);
 
     // Cập nhật mật khẩu cho khách hàng
-    void updatePassword(String taiKhoan, String newPassword);
+//    void updatePassword(String taiKhoan, String newPassword);
 
     // Kiểm tra tồn tại số điện thoại
     boolean existsBySoDienThoai(String soDienThoai);
